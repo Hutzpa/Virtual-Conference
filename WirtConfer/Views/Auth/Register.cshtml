@@ -1,0 +1,33 @@
+﻿@model RegisterViewModel
+
+
+    <form asp-controller="Auth" asp-action="Register" method="post">
+        <div id="Name">
+            <label>Name</label>
+            <input asp-for="Name" />
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div id="Surname">
+            <label>Surname</label>
+            <input asp-for="Surname" />
+            <span asp-validation-for="Surname"></span>
+        </div>
+        <div id="Age">
+            <label>Age</label>
+            <input asp-for="Age" />
+            <span asp-validation-for="Age"></span>
+        </div>
+        <div id="Email">
+            <label>Email</label>
+            <input asp-for="Email" />
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div id="Password">
+            <label>Password</label>
+            <input asp-for="Password" />
+            <span asp-validation-for="Password"></span>
+        </div>
+        <div id="Register">
+            <input type="submit" value="Register" />
+        </div>
+    </form>
