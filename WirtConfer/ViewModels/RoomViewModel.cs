@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace WirtConfer.ViewModels
 {
-    public class UserViewModel
+    public class RoomViewModel
     {
+        public string IdEvent { get; set; }
+        public string IdRoom { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
     }

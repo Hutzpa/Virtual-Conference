@@ -26,7 +26,8 @@ namespace WirtConfer.Controllers
         public async Task<IActionResult> Room()
         {
             var User = await _userManager.GetUserAsync(this.User);
-            return View(new UserViewModel { Name = User.Name, Surname = User.Surname });
+            return View(new RoomViewModel { Name = User.Name, Surname = User.Surname,IdEvent="12",IdRoom="34" });
         }
+
     }
 }

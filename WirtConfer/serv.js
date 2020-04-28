@@ -3,18 +3,20 @@ const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-//app.use("/static", express.static("./static/"));
-//app.get('/', (req, res) => res.sendFile(__dirname + '/static/client.html'));
 http.listen(3000, () => console.log("Listening 3000"));
-
-console.log("dude pls");
 
 io.on('connection', socket => {
     console.log(`${socket.client.id} has been connected`) //лог подключения
 
-    socket.on('chat mes', Message => {
+    socket.on('greetingToServ', room => {
+        console.log(`Preparing to connect to ${room}`);
+        socket.join(room);
+        console.log(`User ${socket.client.id} connected to room ${room}`);
+    });
+
+    socket.on('chatMessage', Message => {
         console.log(Message);
-        socket.broadcast.emit('chat message', { name: Message.name, msg: Message.msg });
+        socket.broadcast.to(Message.room).emit('chat message', { name: Message.name, msg: Message.msg });
     });
 
     socket.on('disconnect', () => {

@@ -3,18 +3,17 @@
   "name": "wirtconfer",
   "private": true,
   "scripts": {
-    "build": "browserify room.js -o wwwroot/js/bundle.js"
+    "build": "browserify room.js -o wwwroot/js/bundle.js",
+    "build1": "browserify room1.js -o wwwroot/js/bundle1.js"
   },
   "dependencies": {
     "socket.io": "2.3.0",
     "express": "5.0.0-alpha.8",
-    "browserify": "16.5.1",
     "jquery": "3.5.0"
   },
   "devDependencies": {
     "socket.io": "2.3.0",
     "express": "5.0.0-alpha.8",
-    "browserify": "16.5.1",
     "jquery": "3.5.0"
   }
 }
