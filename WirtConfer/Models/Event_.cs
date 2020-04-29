@@ -8,7 +8,7 @@ using WirtConfer.Models.States;
 
 namespace WirtConfer.Models
 {
-    public class Event
+    public class Event_
     {
         [Key]
         public int Id { get; set; }
@@ -24,5 +24,6 @@ namespace WirtConfer.Models
         public ICollection<Room> Rooms { get; set; }
         public ICollection<UserInEvent> UsersInEvents { get; set; }
         public ICollection<Invite> Invites { get; set; }
+        public ICollection<Blacklist> Blacklist { get; set; }
     }
 }

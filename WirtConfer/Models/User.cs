@@ -21,5 +21,6 @@ namespace WirtConfer.Models
 
 
         public ICollection<UserInEvent> UsersInEvents { get; set; }
+        public ICollection<Blacklist> UsersInBlacklist { get; set; }
     }
 }

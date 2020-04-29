@@ -1,0 +1,12 @@
+﻿@model EventViewModel
+
+    <form asp-controller="Event" asp-action="CreateEv" method="post">
+        <div id="Name">
+            <label>Name</label>
+            <input asp-for="Name" />
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div id="Create">
+            <input type="submit" value="Create" />
+        </div>
+    </form>

@@ -13,7 +13,7 @@ namespace WirtConfer.Models
         public int Id { get; set; }
 
         public int EventId { get; set; }
-        public Event Event { get; set;  }
+        public Event_ Event { get; set;  }
 
         [Required]
         [MinLength(2,ErrorMessage = "Room name can't be less than two characters")]

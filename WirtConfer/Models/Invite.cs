@@ -14,7 +14,7 @@ namespace WirtConfer.Models
         [Url]
         public string Url { get; set; }
         public int EventId { get; set; }
-        public Event Event { get; set; }
+        public Event_ Event { get; set; }
 
     }
 }
