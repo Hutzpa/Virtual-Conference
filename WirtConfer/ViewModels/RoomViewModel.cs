@@ -8,9 +8,10 @@ namespace WirtConfer.ViewModels
 {
     public class RoomViewModel
     {
-        public string IdEvent { get; set; }
-        public string IdRoom { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
+        public int IdEvent { get; set; }
+        public int IdRoom { get; set; }
+        public string RoomName { get; set; }
+        public string UserName { get; set; }
+        public string UserSurname { get; set; }
     }
 }

@@ -1,5 +1,16 @@
-﻿@model IEnumerable<Event_>
+﻿@model IEnumerable<UserInEvent>
 
+@*@inject WirtConfer.Data.ApplicationDbContext _dbContext
+@inject Microsoft.AspNetCore.Identity.UserManager<User> _userManager
+@using Microsoft.EntityFrameworkCore*@
+
+
+
+@*@{
+    //var eventsOfThisUser = _dbContext.UserInEvents.Include(o=>o.Event).Include(o=>o.User).Where(o => o.Event.OwnerId == _userManager.GetUserId(User) || o.User.Id == _userManager.GetUserId(User));
+    var eventsOfThisUser = _dbContext.UserInEvents.Include(o=>o.Event).Where(o => o.Event.OwnerId == _userManager.GetUserId(User));
+    int k = 0;
+}*@
 
 @if (Enumerable.Count(Model) == 0)
 {
@@ -16,11 +27,11 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach(var e in Model)
+            @foreach (var e in Model)
             {
                 <tr>
                     <td>
-                        <a asp-controller="Event" asp-action="Event" asp-route-id="@e.Id"> @e.Name </a>
+                        <a asp-controller="Event" asp-action="Event" asp-route-id="@e.EventId"> @e.Event.Name </a>
                     </td>
                     <td>
                         <a asp-controller="Event" asp-action="DeleteEv" asp-route-id="@e.Id"> Delete </a>

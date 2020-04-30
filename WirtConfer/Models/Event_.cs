@@ -17,8 +17,6 @@ namespace WirtConfer.Models
         [MinLength(2, ErrorMessage = "Name can't be less than two chars")]
         public string Name { get; set; }
         public string OwnerId { get; set; }
-        public InviteType Type { get; set; }
-        public Status Status { get; set; }      
 
 
         public ICollection<Room> Rooms { get; set; }

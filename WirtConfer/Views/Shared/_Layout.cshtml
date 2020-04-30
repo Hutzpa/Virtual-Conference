@@ -21,17 +21,18 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Event" asp-action="Room">Chat</a>
-                        </li>
-                        
+                        </li>                      
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Event" asp-action="CreateEv">Create event</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Event" asp-action="EventList">Event list</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <form asp-controller="Event" asp-action="JoinInvite" method="get" enctype="multipart/form-data">
+                                <input class="form-control mr-sm-2" type="text" name="Url" placeholder="Enter your invite" />
+                            </form>
                         </li>
                     </ul>
                 </div>

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WirtConfer.Models.States;
 
 namespace WirtConfer.Models
 {
@@ -13,6 +14,9 @@ namespace WirtConfer.Models
         public int Id { get; set; }
         [Url]
         public string Url { get; set; }
+
+        public InviteType Type { get; set; }
+
         public int EventId { get; set; }
         public Event_ Event { get; set; }
 
