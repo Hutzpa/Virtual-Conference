@@ -13,5 +13,8 @@ namespace WirtConfer.ViewModels
         [Required]
         [MinLength(2, ErrorMessage = "Name can't be less than two chars")]
         public string Name { get; set; }
+        public string OwnerId { get; set; }
+
+
     }
 }
