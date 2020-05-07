@@ -146,8 +146,6 @@ namespace WirtConfer.Controllers
         }
 
 
-
-        [HttpGet]
         public IActionResult CreateRoom(int idEv) => View(new RoomViewModel { IdEvent = idEv });
 
         [HttpPost]
@@ -160,11 +158,7 @@ namespace WirtConfer.Controllers
                 Name = rvm.RoomName
             };
             await _dbContext.Rooms.AddAsync(room);
-
-            if (await SaveAsync())
-                return View(rvm);
-
-            return RedirectToAction("Event", "Event", new { id = rvm.IdEvent });
+            return await RedirectToEvent(rvm.IdEvent);
         }
 
         public async Task<IActionResult> DeleteRoomAsync(int id)

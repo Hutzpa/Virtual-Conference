@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using WirtConfer.Models;
@@ -61,8 +63,12 @@ namespace WirtConfer.Controllers
             };
             var result = await _userManager.CreateAsync(User, rvm.Password);
 
+            AuthEvent authEvent = new AuthEvent();
+            authEvent.GreetingOnEmail += EmailGreeting;//Добавляем приветствие
+
             if (result.Succeeded)
             {
+                authEvent.Greeting(rvm.Email, rvm.Name);
                 await _signInManager.SignInAsync(User, false);
                 return RedirectToAction("Index", "Home");
             }
@@ -75,7 +81,34 @@ namespace WirtConfer.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        private void EmailGreeting(string email, string name)
+        {
+            try
+            {
+                // отправитель - устанавливаем адрес и отображаемое в письме имя
+                MailAddress from = new MailAddress("illia.bezuhlyi@nure.ua", "Wirtual conference");
+                // кому отправляем
+                MailAddress to = new MailAddress(email);
+                // создаем объект сообщения
+                MailMessage m = new MailMessage(from, to);
+                // тема письма
+                m.Subject = "Welcome";
+                // текст письма
+                m.Body = name + " welcome in Wirtual conferenct service";
+                // письмо представляет код html
+                m.IsBodyHtml = true;
+                // адрес smtp-сервера и порт, с которого будем отправлять письмо
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                // логин и пароль
+                smtp.Credentials = new NetworkCredential("illia.bezuhlyi@nure.ua", "TLnK5nd3");
+                smtp.EnableSsl = true;
+                smtp.Send(m);
+            }
+            catch (Exception ex)
+            {
 
+            }
+        }
 
     }
 }

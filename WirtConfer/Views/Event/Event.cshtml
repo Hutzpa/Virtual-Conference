@@ -28,6 +28,8 @@
 
 <a class="btn-danger" asp-controller="Event" asp-action="Leave" asp-route-idEv="@Model.IdEvent">LEAVE</a>
 
+<a asp-controller="Event" asp-action="CreateRoom" asp-route-idEv="@Model.IdEvent">Create room</a>
+
 <h5>Rooms in this event</h5>
 <ul>
     @foreach (var room in _dbContext.Rooms.Where(o => o.EventId == Model.IdEvent))

@@ -19,6 +19,10 @@ io.on('connection', socket => {
         socket.broadcast.to(Message.room).emit('chat message', { name: Message.name, msg: Message.msg });
     });
 
+    socket.on('stream', pack => {
+        socket.broadcast.to(pack.room).emit('stream', pack.image);
+    });
+
     socket.on('disconnect', () => {
         console.log(`${socket.client.id} disconnected`);
     }); //лог отключения
