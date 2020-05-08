@@ -38,7 +38,7 @@ namespace WirtConfer.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult CreateEv() => View(new EventViewModel());
+        public IActionResult CreateEv() => PartialView(new EventViewModel());
 
         [HttpPost]
         public async Task<IActionResult> CreateEv(EventViewModel evm)
@@ -134,8 +134,6 @@ namespace WirtConfer.Controllers
         /// <summary>
         /// /////////////////////////////////////////// ROOOOOOMS 
         /// </summary>
-        /// <param name="idRoom"></param>
-        /// <returns></returns>
 
         [HttpGet]
         public async Task<IActionResult> Room(int idRoom)
@@ -145,8 +143,8 @@ namespace WirtConfer.Controllers
             return View(new RoomViewModel { UserName = User.Name, UserSurname = User.Surname, IdEvent = Room.Event.Id, IdRoom = Room.Id });
         }
 
-
-        public IActionResult CreateRoom(int idEv) => View(new RoomViewModel { IdEvent = idEv });
+        [HttpGet]
+        public IActionResult CreateRoom(int idev) => PartialView(new RoomViewModel { IdEvent = idev });
 
         [HttpPost]
         public async Task<IActionResult> CreateRoom(RoomViewModel rvm)

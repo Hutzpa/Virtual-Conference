@@ -15,6 +15,5 @@ namespace WirtConfer.ViewModels
         public string Name { get; set; }
         public string OwnerId { get; set; }
 
-
     }
 }

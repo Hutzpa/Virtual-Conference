@@ -18,122 +18,162 @@
     }
     CurUserIsModerator();
 }
-<h1>
-    @Model.IdEvent
-</h1>
 
-<h2>
+<h2 class="display-2 mb-3">
     @Model.Name
 </h2>
 
-<a class="btn-danger" asp-controller="Event" asp-action="Leave" asp-route-idEv="@Model.IdEvent">LEAVE</a>
+@if (Model.OwnerId == _userManager.GetUserId(User))
+{
+    <a class="btn btn-info" asp-controller="Event" asp-action="CreateRoom" id="Create" asp-route-idEv="@Model.IdEvent">Create room</a>
+}
 
-<a asp-controller="Event" asp-action="CreateRoom" asp-route-idEv="@Model.IdEvent">Create room</a>
 
-<h5>Rooms in this event</h5>
-<ul>
-    @foreach (var room in _dbContext.Rooms.Where(o => o.EventId == Model.IdEvent))
-    {
-        <li>
-            <a asp-controller="Event" asp-action="Room" asp-route-idRoom="@room.Id"> @room.Name </a>
-            @if (Model.OwnerId == _userManager.GetUserId(User))
-            {
-                <a asp-controller="Event" asp-action="DeleteRoom" asp-route-id="@room.Id"> Delete room</a>
-            }
-            <br />
-        </li>
-    }
-</ul>
+
+
+<h5 class="lead">Rooms in this event</h5>
+
+<table class="table table-striped ">
+    <thead class="thead-light">
+        <tr>
+            <th class="lead pl-5">
+                Room name
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var room in _dbContext.Rooms.Where(o => o.EventId == Model.IdEvent))
+        {
+            <tr>
+                <td>
+                    <a class="lead" asp-controller="Event" asp-action="Room" asp-route-idRoom="@room.Id"> @room.Name </a>
+                </td>
+                <td>
+                    @if (Model.OwnerId == _userManager.GetUserId(User))
+                    {
+                        <a class="btn btn-danger" asp-controller="Event" asp-action="DeleteRoom" asp-route-id="@room.Id"> Delete room</a>
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
 
 @if (Model.OwnerId == _userManager.GetUserId(User))
 {
-    <a asp-controller="Event" asp-action="CreateInvite" asp-route-idEv="@Model.IdEvent" asp-route-invType="0">Create invite for single user </a>
+    <a class="btn btn-info mr-5 mb-2 mt-5" asp-controller="Event" asp-action="CreateInvite" asp-route-idEv="@Model.IdEvent" asp-route-invType="0">Create invite for single user </a>
 
-    <a asp-controller="Event" asp-action="CreateInvite" asp-route-idEv="@Model.IdEvent" asp-route-invType="1">Create invite for many users</a>
+    <a class="btn btn-info ml-5 mb-2 mt-5" asp-controller="Event" asp-action="CreateInvite" asp-route-idEv="@Model.IdEvent" asp-route-invType="1">Create invite for many users</a>
     <br />
 
-    <h4>Active invites in this event</h4>
-    <table>
-        <thead>
+    <h4 class="lead">Active invites in this event</h4>
+    <table class="table table-striped">
+        <thead class="thead-light">
             <tr>
-                <th>Url</th>
-                <th>Type</th>
-                <th>Action</th>
+                <th class="lead">Url</th>
+                <th class="lead">Type</th>
+                <th class="lead">Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var invite in _dbContext.Invites.Where(o => o.EventId == Model.IdEvent))
             {
                 <tr>
-                    <td>
+                    <td class="lead mr-2">
                         <label>@invite.Url</label>
                     </td>
-                    <td>
+                    <td class="lead ml-2 mr-2">
                         <label>@invite.Type.ToString()</label>
                     </td>
 
                     <td>
-                        <a asp-controller="Event" asp-action="DeleteInvite" asp-route-idInv="@Model.IdEvent"> Delete </a>
+                        <a class="btn btn-danger ml-2" asp-controller="Event" asp-action="DeleteInvite" asp-route-idInv="@Model.IdEvent"> Delete </a>
                     </td>
                 </tr>
             }
 
         </tbody>
     </table>
-
     <br />
-
-
 }
 
-<div class="container-fluid">
-    <ul >
+<h4 class="lead mb-3">
+    User list
+</h4>
+
+
+<table class="table table-striped">
+    <thead class="thead-light">
+        <tr>
+            <th class="lead">
+                User
+            </th>
+
+            <th class="lead">
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
         @foreach (var user in _dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.IdEvent))
         {
-            <li >
-                <label>
-                    @user.User.Email
-                </label>
-
-                @if (IsModer && user.Role != WirtConfer.Models.States.Roles.moderator) //Если текущий пользователь модерирует данный ивент
-                {
-                    <label>
-                        <a asp-controller="Event" asp-action="Ban" asp-route-id="@user.User.Id">Ban</a>
+            <tr>
+                <td>
+                    <label class="lead">
+                        @user.User.Email
                     </label>
-                }
-                @if (Model.OwnerId == _userManager.GetUserId(User))
-                {
-                    if (user.Role != WirtConfer.Models.States.Roles.moderator)
+
+                </td>
+                <td>
+                    @if (IsModer && user.Role != WirtConfer.Models.States.Roles.moderator) //Если текущий пользователь модерирует данный ивент
                     {
                         <label>
-                            <a asp-controller="Event" asp-action="MakeModer" asp-route-id="@user.User.Id">Make moder</a>
+                            <a class="btn btn-danger" asp-controller="Event" asp-action="Ban" asp-route-id="@user.User.Id">Ban</a>
                         </label>
                     }
-                    else
+                    @if (Model.OwnerId == _userManager.GetUserId(User))
                     {
-                        <label>
-                            <a asp-controller="Event" asp-action="DeleteModer" asp-route-id="@user.User.Id">Unmake moder</a>
-                        </label>
+                        if (user.Role != WirtConfer.Models.States.Roles.moderator)
+                        {
+                            <label>
+                                <a class="btn btn-info" asp-controller="Event" asp-action="MakeModer" asp-route-id="@user.User.Id">Make moder</a>
+                            </label>
+                        }
+                        else
+                        {
+                            <label>
+                                <a class="btn btn-danger" asp-controller="Event" asp-action="DeleteModer" asp-route-id="@user.User.Id">Unmake moder</a>
+                            </label>
+                        }
                     }
-                }
-            </li>
+                </td>
+            </tr>
         }
-    </ul>
-</div>
+
+    </tbody>
+</table>
+
 
 
 @if (Model.OwnerId == _userManager.GetUserId(User))
 {
-    <div>
-        <h4>Ban list</h4>
-        <ul>
+    if (Enumerable.Count(_dbContext.Blacklist.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.IdEvent).ToList()) > 0)
+    {
+        <h4 class="lead">Ban list</h4>
+        <ul class="list-group">
             @foreach (var user in _dbContext.Blacklist.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.IdEvent))
             {
-                <li>
+                <li class="list-group-item lead">
                     @user.User.Name @user.User.Surname  @user.User.UserName
                 </li>
             }
         </ul>
-    </div>
 
+    }
 }
+<a class="btn btn-danger" asp-controller="Event" asp-action="Leave" asp-route-idEv="@Model.IdEvent">LEAVE</a>

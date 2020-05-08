@@ -1,15 +1,12 @@
 ﻿@model RoomViewModel
 
 
-<h4>@Model.IdEvent</h4>
-    <form asp-controller="Event" asp-action="CreateRoom" method="post">
-        <input asp-for="IdEvent" value="@Model.IdEvent" type="hidden" />
-        <div id="Name">
-            <label>Room name</label>
-            <input asp-for="RoomName" />
-            <span asp-validation-for="RoomName"></span>
-        </div>
-        <div id="Create">
-            <input type="submit" value="Create" />
-        </div>
-    </form>
+<form class="text-center" asp-controller="Event" asp-action="CreateRoom" method="post">
+    <input asp-for="IdEvent" value="@Model.IdEvent" type="hidden" />
+    <div id="Name">
+        <label>Room name</label>
+        <input asp-for="RoomName" />
+        <span asp-validation-for="RoomName"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
