@@ -1,10 +1,22 @@
 ﻿@model RoomViewModel
 
 
-<video playsinline autoplay></video>
-<script src="/socket.io/socket.io.js"></script>
-<script charset="utf-8" src="~/js/room.js"></script>
+<h5>Admin</h5>
 
+<section class="select">
+    <label for="audioSource">Audio source: </label>
+    <select id="audioSource"></select>
+</section>
+
+<section class="select">
+    <label for="videoSource">Video source: </label>
+    <select id="videoSource"></select>
+</section>
+
+<video playsinline autoplay muted></video>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+<script charset="utf-8" src="~/js/roomadmin.js"></script>
 
 <div class="container">
     <div class="py-5 text-center">
@@ -17,7 +29,7 @@
             <h3>Форма сообщений</h3>
             <form id="messForm">
                 <label for="name">Имя</label>
-                <input type="text" name="name" id="name" value="@Model.UserName  @Model.UserSurname" disabled>
+                <input type="text" name="name" id="name" value="@Model.UserName _ @Model.UserSurname" disabled>
 
                 <br>
                 <label for="message">Сообщение</label>
@@ -34,6 +46,5 @@
         </div>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+
 @*<script charset="utf-8" src="~/js/bundle.js"></script>*@

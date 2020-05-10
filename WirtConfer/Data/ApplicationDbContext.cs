@@ -49,6 +49,10 @@ namespace WirtConfer.Data
                 .WithOne(o => o.User)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<Event_>()
+                .HasMany(o => o.Blacklist)
+                .WithOne(o => o.Event)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

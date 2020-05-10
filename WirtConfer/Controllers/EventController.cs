@@ -52,10 +52,11 @@ namespace WirtConfer.Controllers
             await _dbContext.Events.AddAsync(Event);
 
             if (await SaveAsync())
-                return RedirectToAction("EventList", "Event");
-
+            {
+                int id = Event.Id;
+                return RedirectToAction("Event", "Event", new { id = id});
+            }
             return View(evm);
-
         }
 
         [HttpGet]
@@ -139,12 +140,15 @@ namespace WirtConfer.Controllers
         public async Task<IActionResult> Room(int idRoom)
         {
             var Room = await _dbContext.Rooms.Include(o => o.Event).FirstOrDefaultAsync(o => o.Id == idRoom);
+            
             var User = await _userManager.GetUserAsync(this.User);
+            if (Room.Event.OwnerId == _userManager.GetUserId(HttpContext.User))
+                return View("RoomAdmin", new RoomViewModel { UserName = User.Name, UserSurname = User.Surname, IdEvent = Room.Event.Id, IdRoom = Room.Id });
             return View(new RoomViewModel { UserName = User.Name, UserSurname = User.Surname, IdEvent = Room.Event.Id, IdRoom = Room.Id });
         }
 
         [HttpGet]
-        public IActionResult CreateRoom(int idev) => PartialView(new RoomViewModel { IdEvent = idev });
+        public IActionResult CreateRoom(int idev) => View(new RoomViewModel { IdEvent = idev });
 
         [HttpPost]
         public async Task<IActionResult> CreateRoom(RoomViewModel rvm)
