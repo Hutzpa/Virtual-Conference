@@ -24,6 +24,7 @@ io.on('connection', socket => {
     socket.on('chatMessage', Message => {
         console.log(Message);
         socket.broadcast.to(Message.room).emit('chat message', { name: Message.name, msg: Message.msg });
+
     });
 
     socket.on('stream', pack => {

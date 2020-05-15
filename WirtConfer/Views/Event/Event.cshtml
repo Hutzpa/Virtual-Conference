@@ -93,7 +93,7 @@
                     </td>
 
                     <td>
-                        <a class="btn btn-danger ml-2" asp-controller="Event" asp-action="DeleteInvite" asp-route-idInv="@Model.IdEvent"> Delete </a>
+                        <a class="btn btn-danger ml-2" asp-controller="Event" asp-action="DeleteInvite" asp-route-idInv="@invite.Id"> Delete </a>
                     </td>
                 </tr>
             }
@@ -142,13 +142,13 @@
                             if (user.Role != WirtConfer.Models.States.Roles.moderator)
                             {
                                 <label>
-                                    <a class="btn btn-info" asp-controller="Event" asp-action="MakeModer" asp-route-id="@user.User.Id">Make moder</a>
+                                    <a class="btn btn-info" asp-controller="Event" asp-action="MakeModer" asp-route-id="@user.User.Id" asp-route-evId="@Model.IdEvent">Make moder</a>
                                 </label>
                             }
                             else
                             {
                                 <label>
-                                    <a class="btn btn-danger" asp-controller="Event" asp-action="DeleteModer" asp-route-id="@user.User.Id">Unmake moder</a>
+                                    <a class="btn btn-danger" asp-controller="Event" asp-action="DeleteModer" asp-route-id="@user.User.Id" asp-route-evId="@Model.IdEvent">Unmake moder</a>
                                 </label>
                             }
                         }

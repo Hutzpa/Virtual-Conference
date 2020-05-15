@@ -85,28 +85,20 @@ namespace WirtConfer.Controllers
         {
             try
             {
-                // отправитель - устанавливаем адрес и отображаемое в письме имя
                 MailAddress from = new MailAddress("illia.bezuhlyi@nure.ua", "Wirtual conference");
-                // кому отправляем
                 MailAddress to = new MailAddress(email);
-                // создаем объект сообщения
                 MailMessage m = new MailMessage(from, to);
-                // тема письма
                 m.Subject = "Welcome";
-                // текст письма
                 m.Body = name + " welcome in Wirtual conferenct service";
-                // письмо представляет код html
                 m.IsBodyHtml = true;
-                // адрес smtp-сервера и порт, с которого будем отправлять письмо
                 SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                // логин и пароль
                 smtp.Credentials = new NetworkCredential("illia.bezuhlyi@nure.ua", "TLnK5nd3");
                 smtp.EnableSsl = true;
                 smtp.Send(m);
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
 

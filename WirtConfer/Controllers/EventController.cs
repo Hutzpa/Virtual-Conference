@@ -94,11 +94,11 @@ namespace WirtConfer.Controllers
             return View(new EventViewModel { IdEvent = ev.Id, Name = ev.Name, OwnerId = ev.OwnerId });
         }
 
-        public async Task<IActionResult> MakeModerAsync(string id) => await ChangeModeratorAsync(Roles.moderator, id);
-        public async Task<IActionResult> DeleteModerAsync(string id) => await ChangeModeratorAsync(Roles.regularUser, id);
-        private async Task<IActionResult> ChangeModeratorAsync(Roles role, string id)
+        public async Task<IActionResult> MakeModerAsync(string id, int evId) => await ChangeModeratorAsync(Roles.moderator, id,evId);
+        public async Task<IActionResult> DeleteModerAsync(string id, int evId) => await ChangeModeratorAsync(Roles.regularUser, id,evId);
+        private async Task<IActionResult> ChangeModeratorAsync(Roles role, string id,int evId)
         {
-            UserInEvent uie = await _dbContext.UserInEvents.Include(o => o.Event).Include(o => o.User).FirstOrDefaultAsync(o => o.User.Id == id);
+            UserInEvent uie = await _dbContext.UserInEvents.Include(o => o.Event).Include(o => o.User).FirstOrDefaultAsync(o => o.User.Id == id && o.Event.Id == evId); //ПОлучает неправильный id ивента 
             uie.Role = role;
             _dbContext.UserInEvents.Update(uie);
             return await RedirectToEvent(uie.Event.Id);
