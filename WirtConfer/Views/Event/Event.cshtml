@@ -12,7 +12,7 @@
         try
         {
             var userInEvent = _dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).FirstOrDefault(o => o.Event.Id == Model.IdEvent && o.User.Id == _userManager.GetUserId(User));
-            if(userInEvent != null)
+            if (userInEvent != null)
                 IsModer = userInEvent.Role == WirtConfer.Models.States.Roles.moderator;
         }
         catch { }
@@ -103,64 +103,67 @@
     <br />
 
 
-    <h4 class="lead mb-3">
-        User list
-    </h4>
+}
+<h4 class="lead mb-3">
+    User list
+</h4>
 
 
-    <table class="table table-striped">
-        <thead class="thead-light">
+<table class="table table-striped">
+    <thead class="thead-light">
+        <tr>
+            <th class="lead">
+                User
+            </th>
+
+            <th class="lead">
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in _dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.IdEvent))
+        {
             <tr>
-                <th class="lead">
-                    User
-                </th>
+                <td>
+                    <label class="lead">
+                        @user.User.Email
+                    </label>
 
-                <th class="lead">
-                    Action
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in _dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.IdEvent))
-            {
-                <tr>
-                    <td>
-                        <label class="lead">
-                            @user.User.Email
+                </td>
+                <td>
+                    @if (IsModer && user.Role != WirtConfer.Models.States.Roles.moderator) //Если текущий пользователь модерирует данный ивент
+                    {
+                        <label>
+                            <a class="btn btn-danger" asp-controller="Event" asp-action="Ban" asp-route-id="@user.User.Id">Ban</a>
                         </label>
-
-                    </td>
-                    <td>
-                        @if (IsModer && user.Role != WirtConfer.Models.States.Roles.moderator) //Если текущий пользователь модерирует данный ивент
+                    }
+                    @if (Model.OwnerId == _userManager.GetUserId(User))
+                    {
+                        if (user.Role != WirtConfer.Models.States.Roles.moderator)
                         {
                             <label>
-                                <a class="btn btn-danger" asp-controller="Event" asp-action="Ban" asp-route-id="@user.User.Id">Ban</a>
+                                <a class="btn btn-info" asp-controller="Event" asp-action="MakeModer" asp-route-id="@user.User.Id" asp-route-evId="@Model.IdEvent">Make moder</a>
                             </label>
                         }
-                        @if (Model.OwnerId == _userManager.GetUserId(User))
+                        else
                         {
-                            if (user.Role != WirtConfer.Models.States.Roles.moderator)
-                            {
-                                <label>
-                                    <a class="btn btn-info" asp-controller="Event" asp-action="MakeModer" asp-route-id="@user.User.Id" asp-route-evId="@Model.IdEvent">Make moder</a>
-                                </label>
-                            }
-                            else
-                            {
-                                <label>
-                                    <a class="btn btn-danger" asp-controller="Event" asp-action="DeleteModer" asp-route-id="@user.User.Id" asp-route-evId="@Model.IdEvent">Unmake moder</a>
-                                </label>
-                            }
+                            <label>
+                                <a class="btn btn-danger" asp-controller="Event" asp-action="DeleteModer" asp-route-id="@user.User.Id" asp-route-evId="@Model.IdEvent">Unmake moder</a>
+                            </label>
                         }
-                    </td>
-                </tr>
-            }
+                    }
+                </td>
+            </tr>
+        }
 
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
+@if (Model.OwnerId == _userManager.GetUserId(User))
+{
 
-    if (Enumerable.Count(_dbContext.Blacklist.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.IdEvent).ToList()) > 0)
+    @if (Enumerable.Count(_dbContext.Blacklist.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.IdEvent).ToList()) > 0)
     {
         <h4 class="lead">Ban list</h4>
         <ul class="list-group">
@@ -174,6 +177,6 @@
 
     }
 
-
 }
+
 <a class="btn btn-danger" asp-controller="Event" asp-action="Leave" asp-route-idEv="@Model.IdEvent">LEAVE</a>
