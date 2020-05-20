@@ -21,31 +21,29 @@ namespace WirtConfer.Controllers.ApiControllers
             _context = context;
         }
 
-        [Obsolete("Протестировать, необходимо ли это вообще")]
         // GET: api/ApiRooms_/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Room>> GetRoom(int id)
+        //[HttpGet("{id}")]
+        [HttpGet]
+        public IQueryable<Room> GetEvent_(int id)
         {
-            var room = await _context.Rooms.FindAsync(id);
-
-            if (room == null)
-            {
-                return NotFound();
-            }
-
-            return room;
-        }        
+            var rooms = _context.Rooms.Include(o => o.Event).Where(o => o.Event.Id == id);
+            //var rooms = _context.Rooms.Include(o => o.Event).(o => o.Event.Id == id);
+            return rooms;
+        }
 
         // POST: api/ApiRooms_
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<bool> PostRoom(Room room)
+        public async Task PostRoom(Room room)
         {
+            var ev = await _context.Events.FirstOrDefaultAsync(o => o.Id == room.EventId);
+            room.EventId = 0;
+            room.Event = ev;
+
             _context.Rooms.Add(room);
             int res = await _context.SaveChangesAsync();
 
-            return res == 1;
         }
 
         // DELETE: api/ApiRooms_/5

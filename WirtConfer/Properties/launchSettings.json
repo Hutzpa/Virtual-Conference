@@ -2,6 +2,10 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/WirtConfer",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:52273",
       "sslPort": 44315

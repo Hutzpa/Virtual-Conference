@@ -22,38 +22,32 @@ namespace WirtConfer.Controllers.ApiControllers
         }
 
         // GET: api/ApiEvent_/email@gmail.com
-        [HttpGet("{userEmail}")]
+        [HttpGet]
         public async Task<IEnumerable<Event_>> GetEvents(string userEmail)
         {
-            var owner =await _context.Users.FirstOrDefaultAsync(o => o.Email == userEmail);
-            var userEvents = _context.Events.Where(o => o.OwnerId == owner.Id);
-            return userEvents;
+            var user = await _context.Users.FirstOrDefaultAsync(o => o.Email == userEmail); 
+            var userInEvents = _context.UserInEvents.Include(o => o.Event).Include(o => o.User).Where(o => o.User.Id == user.Id).ToList();
+            var Own = _context.Events.Where(o => o.OwnerId == user.Id).ToList();
+            var Events = ExtractEvents(userInEvents).Union(Own);
+            return Events;
         }
 
-        // GET: api/ApiEvent_/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Event_>> GetEvent_(int id)
+        private IEnumerable<Event_> ExtractEvents(List<UserInEvent> userInEvent)
         {
-            var event_ = await _context.Events.Include(o=>o.Rooms).FirstOrDefaultAsync(o=>o.Id == id);
-
-            if (event_ == null)
-            {
-                return NotFound();
-            }
-
-            return event_;
+            foreach (var ev in userInEvent)
+                yield return ev.Event;
         }
 
         // POST: api/ApiEvent_
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<bool> PostEvent_Async(Event_ event_)
+        public async Task PostEvent_Async([FromBody]Event_ event_)
         {
+            User user = await _context.Users.FirstOrDefaultAsync(o => o.Email == event_.OwnerId);
+            event_.OwnerId = user.Id;
             _context.Events.Add(event_);
-            int res = await _context.SaveChangesAsync();
-
-            return res == 1;
+            await _context.SaveChangesAsync();
         }
 
         // DELETE: api/ApiEvent_/5
