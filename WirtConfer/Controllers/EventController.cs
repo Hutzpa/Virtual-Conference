@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using WirtConfer.Data;
+using WirtConfer.Data.FileManager;
 using WirtConfer.Models;
 using WirtConfer.Models.States;
 using WirtConfer.ViewModels;
@@ -23,14 +24,17 @@ namespace WirtConfer.Controllers
         private SignInManager<User> _signInManager;
         private UserManager<User> _userManager;
         private ApplicationDbContext _dbContext;
+        private IFileManager _fileManager;
 
         public EventController(SignInManager<User> signInManager,
             UserManager<User> userManager,
-            ApplicationDbContext dbContext)
+            ApplicationDbContext dbContext,
+            IFileManager fileManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _dbContext = dbContext;
+            _fileManager = fileManager;
         }
 
         /// <summary>
@@ -41,13 +45,14 @@ namespace WirtConfer.Controllers
         public IActionResult CreateEv() => PartialView(new EventViewModel());
 
         [HttpPost]
-        public async Task<IActionResult> CreateEv(EventViewModel evm)
+        public async Task<IActionResult> CreateEv(EventViewModel ev)
         {
             var curUsr = await _userManager.GetUserAsync(this.User);
             var Event = new Event_
             {
-                Name = evm.Name,
-                OwnerId = curUsr.Id
+                Name = ev.Name,
+                OwnerId = curUsr.Id,
+                Image = await _fileManager.SaveImage(ev.Image),
             };
             await _dbContext.Events.AddAsync(Event);
 
@@ -56,7 +61,15 @@ namespace WirtConfer.Controllers
                 int id = Event.Id;
                 return RedirectToAction("Event", "Event", new { id = id});
             }
-            return View(evm);
+            return View(ev);
+        }
+
+        [HttpGet("/Image/{image}")]
+        public IActionResult Image(string image)
+        {
+            var mime = image.Substring(image.LastIndexOf('.')+1);
+
+            return new FileStreamResult(_fileManager.ImageStream(image),$"image/{mime}");
         }
 
         [HttpGet]
@@ -90,8 +103,9 @@ namespace WirtConfer.Controllers
         [HttpGet]
         public async Task<IActionResult> EventAsync(int id)
         {
+
             var ev = await _dbContext.Events.FirstOrDefaultAsync(o => o.Id == id);
-            return View(new EventViewModel { IdEvent = ev.Id, Name = ev.Name, OwnerId = ev.OwnerId });
+            return View(ev);
         }
 
         public async Task<IActionResult> MakeModerAsync(string id, int evId) => await ChangeModeratorAsync(Roles.moderator, id,evId);

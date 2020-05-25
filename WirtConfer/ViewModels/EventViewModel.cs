@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace WirtConfer.ViewModels
         [MinLength(2, ErrorMessage = "Name can't be less than two chars")]
         public string Name { get; set; }
         public string OwnerId { get; set; }
+        public IFormFile Image { get; set; }
 
     }
 }

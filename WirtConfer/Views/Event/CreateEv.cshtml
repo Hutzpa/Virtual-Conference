@@ -14,20 +14,18 @@
             </div>
 
             <div class="modal-body">
-                <form asp-controller="Event" asp-action="CreateEv" method="post">
+                <form asp-controller="Event" asp-action="CreateEv" method="post" enctype="multipart/form-data">
                     <div class="form-group" id="Name">
                         <label>Name</label>
                         <input asp-for="Name" class="form-control" />
                         <span asp-validation-for="Name" class="text-danger"></span>
+   
+                        <label>Image  </label>
+                        <input asp-for="Image" />
                     </div>
+                    <input type="submit" class="btn btn-primary"/>
                 </form>
             </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-save="modal">Save</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </div>
-
         </div>
 
     </div>

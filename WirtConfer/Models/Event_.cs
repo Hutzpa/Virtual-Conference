@@ -18,6 +18,7 @@ namespace WirtConfer.Models
         public string Name { get; set; }
         public string OwnerId { get; set; }
 
+        public string Image { get; set; } = "";
 
         public ICollection<Room> Rooms { get; set; }
         public ICollection<UserInEvent> UsersInEvents { get; set; }

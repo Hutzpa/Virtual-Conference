@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WirtConfer.Models;
+using WirtConfer.Data.FileManager;
 
 namespace WirtConfer
 {
@@ -40,6 +41,9 @@ namespace WirtConfer
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddControllersWithViews();
+
+            services.AddTransient<IFileManager, FileManager>();
+
             services.AddRazorPages();
         }
 

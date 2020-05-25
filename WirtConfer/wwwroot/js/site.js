@@ -15,7 +15,26 @@ $(function () {
             PlaceHolderElement.find('.modal').modal('show');
         })
     });
-    PlaceHolderElement.on('click', '[data-save="modal"]', function (event) {
+    //PlaceHolderElement.on('click', '[data-save="modal"]', function (event) {
+    //    var form = $(this).parents('.modal').find('form');
+
+    //    var actionUrl = form.attr('action');
+    //    var sendData = form.serialize();
+    //    $.post(actionUrl, sendData).done(function (data) {
+    //        PlaceHolderElement.find(".modal").modal('hide');
+    //    })
+    //})
+      //PlaceHolderElement.on('submit', '[data-save="modal"]', function (event) {
+      //  var form = $(this).parents('.modal').find('form');
+
+      //  var actionUrl = form.attr('action');
+      //  var sendData = form.serialize();
+      //  $.post(actionUrl, sendData).done(function (data) {
+      //      PlaceHolderElement.find(".modal").modal('hide');
+      //  })
+      //})
+
+    PlaceHolderElement.submit('[data-save="modal"]', function (event) {
         var form = $(this).parents('.modal').find('form');
 
         var actionUrl = form.attr('action');
@@ -23,5 +42,5 @@ $(function () {
         $.post(actionUrl, sendData).done(function (data) {
             PlaceHolderElement.find(".modal").modal('hide');
         })
-    })
+    });
 })
