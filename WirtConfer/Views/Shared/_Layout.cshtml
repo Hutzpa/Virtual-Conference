@@ -6,6 +6,9 @@
     <title>@ViewData["Title"] - WirtConfer</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/favicon.ico" rel="shortcut icon" runat="server" type="image/x-icon" />
+    <link href="~/favicon.ico" rel="icon" runat="server" type="image/ico" />
+
 </head>
 <body>
     <header>
@@ -29,7 +32,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <form asp-controller="Event" asp-action="JoinInvite" method="get" enctype="multipart/form-data">
+                                <form asp-controller="Invite" asp-action="JoinInvite" method="get" enctype="multipart/form-data">
                                     <input class="form-control mr-sm-2" type="text" name="Url" placeholder="Enter your invite" />
                                 </form>
                             </li>

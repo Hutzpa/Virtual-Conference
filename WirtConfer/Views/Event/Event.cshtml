@@ -20,20 +20,32 @@
     CurUserIsModerator();
 }
 
-<h2 class="display-2 mb-3">
-    @Model.Name
-</h2>
 
-@if (!String.IsNullOrEmpty(Model.Image))
-{
-    var imgPath = $"/Image/{Model.Image}";
-    <img src="@imgPath" />
+<div class="container">
+    <div class="row">
 
-}
+        <h2 class="display-2 mb-3 col-4">
+            @Model.Name
+        </h2>
+
+        <div class="col-8">
+
+            @if (!String.IsNullOrEmpty(Model.Image))
+            {
+                var imgPath = $"/Image/{Model.Image}";
+                <img src="@imgPath" class="rounded float-right" height="330" width="650"/>
+
+            }
+        </div>
+
+    </div>
+
+</div>
+
 
 @if (Model.OwnerId == _userManager.GetUserId(User))
 {
-    <a class="btn btn-info" asp-controller="Event" asp-action="CreateRoom" id="Create" asp-route-idEv="@Model.Id">Create room</a>
+    <a class="btn btn-info" asp-controller="Room" asp-action="CreateRoom" id="Create" asp-route-idEv="@Model.Id">Create room</a>
 }
 
 
@@ -57,12 +69,12 @@
         {
             <tr>
                 <td>
-                    <a class="lead" asp-controller="Event" asp-action="Room" asp-route-idRoom="@room.Id"> @room.Name </a>
+                    <a class="lead" asp-controller="Room" asp-action="Room" asp-route-idRoom="@room.Id"> @room.Name </a>
                 </td>
                 <td>
                     @if (Model.OwnerId == _userManager.GetUserId(User))
                     {
-                        <a class="btn btn-danger" asp-controller="Event" asp-action="DeleteRoom" asp-route-id="@room.Id"> Delete room</a>
+                        <a class="btn btn-danger" asp-controller="Room" asp-action="DeleteRoom" asp-route-id="@room.Id"> Delete room</a>
                     }
 
                 </td>
@@ -74,9 +86,9 @@
 
 @if (Model.OwnerId == _userManager.GetUserId(User))
 {
-    <a class="btn btn-info mr-5 mb-2 mt-5" asp-controller="Event" asp-action="CreateInvite" asp-route-idEv="@Model.Id" asp-route-invType="0">Create invite for single user </a>
+    <a class="btn btn-info mr-5 mb-2 mt-5" asp-controller="Invite" asp-action="CreateInvite" asp-route-idEv="@Model.Id" asp-route-invType="0">Create invite for single user </a>
 
-    <a class="btn btn-info ml-5 mb-2 mt-5" asp-controller="Event" asp-action="CreateInvite" asp-route-idEv="@Model.Id" asp-route-invType="1">Create invite for many users</a>
+    <a class="btn btn-info ml-5 mb-2 mt-5" asp-controller="Invite" asp-action="CreateInvite" asp-route-idEv="@Model.Id" asp-route-invType="1">Create invite for many users</a>
     <br />
 
     <h4 class="lead">Active invites in this event</h4>
@@ -100,7 +112,7 @@
                     </td>
 
                     <td>
-                        <a class="btn btn-danger ml-2" asp-controller="Event" asp-action="DeleteInvite" asp-route-idInv="@invite.Id"> Delete </a>
+                        <a class="btn btn-danger ml-2" asp-controller="Invite" asp-action="DeleteInvite" asp-route-idInv="@invite.Id"> Delete </a>
                     </td>
                 </tr>
             }
@@ -142,7 +154,7 @@
                     @if (IsModer && user.Role != WirtConfer.Models.States.Roles.moderator) //Если текущий пользователь модерирует данный ивент
                     {
                         <label>
-                            <a class="btn btn-danger" asp-controller="Event" asp-action="Ban" asp-route-id="@user.User.Id">Ban</a>
+                            <a class="btn btn-danger" asp-controller="Moder" asp-action="Ban" asp-route-id="@user.User.Id">Ban</a>
                         </label>
                     }
                     @if (Model.OwnerId == _userManager.GetUserId(User))
@@ -150,13 +162,13 @@
                         if (user.Role != WirtConfer.Models.States.Roles.moderator)
                         {
                             <label>
-                                <a class="btn btn-info" asp-controller="Event" asp-action="MakeModer" asp-route-id="@user.User.Id" asp-route-evId="@Model.Id">Make moder</a>
+                                <a class="btn btn-info" asp-controller="Moder" asp-action="MakeModer" asp-route-id="@user.User.Id" asp-route-evId="@Model.Id">Make moder</a>
                             </label>
                         }
                         else
                         {
                             <label>
-                                <a class="btn btn-danger" asp-controller="Event" asp-action="DeleteModer" asp-route-id="@user.User.Id" asp-route-evId="@Model.Id">Unmake moder</a>
+                                <a class="btn btn-danger" asp-controller="Moder" asp-action="DeleteModer" asp-route-id="@user.User.Id" asp-route-evId="@Model.Id">Unmake moder</a>
                             </label>
                         }
                     }
@@ -186,4 +198,4 @@
 
 }
 
-<a class="btn btn-danger" asp-controller="Event" asp-action="Leave" asp-route-idEv="@Model.Id">LEAVE</a>
+<a class="btn btn-danger" asp-controller="Moder" asp-action="Leave" asp-route-idEv="@Model.Id">LEAVE</a>

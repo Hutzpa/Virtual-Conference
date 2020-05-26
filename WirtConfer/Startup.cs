@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WirtConfer.Models;
 using WirtConfer.Data.FileManager;
+using WirtConfer.Data.Repositories;
 
 namespace WirtConfer
 {
@@ -43,6 +44,7 @@ namespace WirtConfer
             services.AddControllersWithViews();
 
             services.AddTransient<IFileManager, FileManager>();
+            services.AddTransient<ISaveRepository, SaveRepository>();
 
             services.AddRazorPages();
         }
