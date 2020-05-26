@@ -154,7 +154,7 @@
                     @if (IsModer && user.Role != WirtConfer.Models.States.Roles.moderator) //Если текущий пользователь модерирует данный ивент
                     {
                         <label>
-                            <a class="btn btn-danger" asp-controller="Moder" asp-action="Ban" asp-route-id="@user.User.Id">Ban</a>
+                            <a class="btn btn-danger" asp-controller="Moder" asp-action="Ban" asp-route-id="@user.User.Id" asp-route-evId="@Model.Id">Ban</a>
                         </label>
                     }
                     @if (Model.OwnerId == _userManager.GetUserId(User))

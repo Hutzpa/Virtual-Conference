@@ -104,8 +104,12 @@ namespace WirtConfer.Controllers
         [HttpGet]
         public async Task<IActionResult> EventAsync(int id)
         {
-
+            string curUsrId = _userManager.GetUserId(HttpContext.User);
+            var thisUserInThisEvent = _dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).ToList().Exists(o => o.Event.Id == id && o.User.Id == curUsrId);
             var ev = await _dbContext.Events.FirstOrDefaultAsync(o => o.Id == id);
+            if (!thisUserInThisEvent && ev.OwnerId != curUsrId) //Если пользователь не состоит в ивенте и не владеет им
+                return RedirectToAction("Index", "Home");
+
             return View(ev);
         }
      

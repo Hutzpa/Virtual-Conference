@@ -37,7 +37,7 @@ namespace WirtConfer.Controllers
         public async Task<IActionResult> DeleteModerAsync(string id, int evId) => await ChangeModeratorAsync(Roles.regularUser, id, evId);
         private async Task<IActionResult> ChangeModeratorAsync(Roles role, string id, int evId)
         {
-            UserInEvent uie = await _dbContext.UserInEvents.Include(o => o.Event).Include(o => o.User).FirstOrDefaultAsync(o => o.User.Id == id && o.Event.Id == evId); //ПОлучает неправильный id ивента 
+            UserInEvent uie = await _dbContext.UserInEvents.Include(o => o.Event).Include(o => o.User).FirstOrDefaultAsync(o => o.User.Id == id && o.Event.Id == evId); 
             uie.Role = role;
             _dbContext.UserInEvents.Update(uie);
             return await _saveRepository.RedirectToEvent(uie.Event.Id);
@@ -54,9 +54,15 @@ namespace WirtConfer.Controllers
             return RedirectToAction("EventList", "Event");
         }
 
-        public async Task<IActionResult> Ban(string id)
+        public async Task<IActionResult> Ban(string id, int evId)
         {
-            UserInEvent uie = await _dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).FirstOrDefaultAsync(o => o.User.Id == id);
+            var curUsr = await _userManager.GetUserAsync(this.User);
+            UserInEvent current = await _dbContext.UserInEvents.Include(o => o.Event).Include(o => o.User).FirstOrDefaultAsync(o => o.User.Id == _userManager.GetUserId(HttpContext.User) && o.Event.Id == evId);
+            if(current.Role != Roles.moderator)
+                return RedirectToAction("Event", "Event", new { id = evId });
+
+
+            UserInEvent uie = await _dbContext.UserInEvents.Include(o => o.Event).Include(o => o.User).FirstOrDefaultAsync(o => o.User.Id == id && o.Event.Id == evId);
             _dbContext.UserInEvents.Remove(uie);
             Blacklist blacklist = new Blacklist
             {
