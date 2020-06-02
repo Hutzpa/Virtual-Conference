@@ -22,19 +22,18 @@ namespace WirtConfer.Controllers
     [Authorize]
     public class EventController : Controller
     {
-        private SignInManager<User> _signInManager;
+
         private UserManager<User> _userManager;
         private ApplicationDbContext _dbContext;
         private IFileManager _fileManager;
         private ISaveRepository _saveRepository;
 
-        public EventController(SignInManager<User> signInManager,
-            UserManager<User> userManager,
+        public EventController(UserManager<User> userManager,
             ApplicationDbContext dbContext,
             IFileManager fileManager,
             ISaveRepository saveRepository)
         {
-            _signInManager = signInManager;
+
             _userManager = userManager;
             _dbContext = dbContext;
             _fileManager = fileManager;

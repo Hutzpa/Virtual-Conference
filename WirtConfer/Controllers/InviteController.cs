@@ -63,7 +63,7 @@ namespace WirtConfer.Controllers
 
             //Не в блеклисте ли пользователь
             var userId = _userManager.GetUserId(HttpContext.User);
-            var blacklist = _dbContext.Blacklist.Include(o => o.User).Include(o => o.Event).ToList().Exists(o => o.User.Id == userId && o.Event.Id == inv.Event.Id);
+            var blacklist = _dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).ToList().Exists(o => o.User.Id == userId && o.IsBanned);
             if (blacklist)
                 return RedirectToAction("Index", "Home");
 

@@ -23,6 +23,5 @@ namespace WirtConfer.Models
         public ICollection<Room> Rooms { get; set; }
         public ICollection<UserInEvent> UsersInEvents { get; set; }
         public ICollection<Invite> Invites { get; set; }
-        public ICollection<Blacklist> Blacklist { get; set; }
     }
 }

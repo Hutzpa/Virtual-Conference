@@ -12,7 +12,14 @@ socket.on('chat message', Message => {
 function CreateMes(idEvent, idRoom, userName, message) {
     return { room: idEvent + idRoom, name: userName, msg: message }
 }
+
+$('sent').on('click', e => {
+    console.log("jgerijgijerijgjierigjoerjigiojerojigjergjioerijoger");
+
+});
 $('form').submit(e => {
+
+    console.log("Сюда дошло");
     e.preventDefault();
     console.log(CreateMes(document.getElementById('idEvent').value,
         document.getElementById('idRoom').value, document.getElementById('name').value, document.getElementById('message').value));
@@ -24,59 +31,4 @@ $('form').submit(e => {
     return false;
 });
 
-//Video taking
-
-let peerConnection;
-const config = {
-    iceServers: [
-        {
-            urls: ["stun:stun.l.google.com:19302"]
-        }
-    ]
-};
-
-
-//const socket = io.connect(window.location.origin);
-const video = document.querySelector("video");
-
-socket.on("offer", (id, description) => {
-    peerConnection = new RTCPeerConnection(config);
-    peerConnection
-        .setRemoteDescription(description)
-        .then(() => peerConnection.createAnswer())
-        .then(sdp => peerConnection.setLocalDescription(sdp))
-        .then(() => {
-            socket.emit("answer", id, peerConnection.localDescription);
-        });
-    peerConnection.ontrack = event => {
-        video.srcObject = event.streams[0];
-    };
-    peerConnection.onicecandidate = event => {
-        if (event.candidate) {
-            socket.emit("candidate", id, event.candidate);
-        }
-    };
-});
-
-socket.on("candidate", (id, candidate) => {
-    peerConnection
-        .addIceCandidate(new RTCIceCandidate(candidate))
-        .catch(e => console.error(e));
-});
-
-socket.on("connect", () => {
-    socket.emit("watcher");
-});
-
-socket.on("broadcaster", () => {
-    socket.emit("watcher");
-});
-
-socket.on("disconnectPeer", () => {
-    peerConnection.close();
-});
-
-window.onunload = window.onbeforeunload = () => {
-    socket.close();
-};
 

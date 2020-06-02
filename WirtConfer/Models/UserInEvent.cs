@@ -17,6 +17,8 @@ namespace WirtConfer.Models
         public int EventId { get; set; }
         public Event_ Event { get; set; }
 
+        public bool IsBanned { get; set; }
+
         [Required]
         public Roles Role { get; set; }
     }

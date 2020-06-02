@@ -59,20 +59,13 @@ namespace WirtConfer.Controllers
             var curUsr = await _userManager.GetUserAsync(this.User);
             UserInEvent current = await _dbContext.UserInEvents.Include(o => o.Event).Include(o => o.User).FirstOrDefaultAsync(o => o.User.Id == _userManager.GetUserId(HttpContext.User) && o.Event.Id == evId);
             if(current.Role != Roles.moderator)
-                return RedirectToAction("Event", "Event", new { id = evId });
+                return RedirectToAction("Event", "Event", new { id = evId }); //Проверка на то, модератор ли текущий пользователь 
 
 
             UserInEvent uie = await _dbContext.UserInEvents.Include(o => o.Event).Include(o => o.User).FirstOrDefaultAsync(o => o.User.Id == id && o.Event.Id == evId);
-            _dbContext.UserInEvents.Remove(uie);
-            Blacklist blacklist = new Blacklist
-            {
-                IdUser = uie.User.Id,
-                User = uie.User,
-                Event = uie.Event,
-                IdEvent = uie.Event.Id,
+            uie.IsBanned = true;
 
-            };
-            _dbContext.Blacklist.Add(blacklist);
+        
             return await _saveRepository.RedirectToEvent(uie.Event.Id);
         }
     }

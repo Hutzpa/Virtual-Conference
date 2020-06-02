@@ -38,7 +38,7 @@ namespace WirtConfer.Controllers.ApiControllers
             //Не в блеклисте ли пользователь
             var User = await _dbContext.Users.FirstOrDefaultAsync(o => o.Email == email);
             var userId = User.Id;
-            var blacklist = _dbContext.Blacklist.Include(o => o.User).Include(o => o.Event).ToList().Exists(o => o.User.Id == userId && o.Event.Id == inv.Event.Id);
+            var blacklist = _dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).ToList().Exists(o => o.User.Id == userId && o.IsBanned);
             if (blacklist)
                 return false;
 

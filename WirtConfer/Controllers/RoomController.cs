@@ -18,36 +18,27 @@ namespace WirtConfer.Controllers
     [Authorize]
     public class RoomController : Controller
     {
-        private SignInManager<User> _signInManager;
         private UserManager<User> _userManager;
         private ApplicationDbContext _dbContext;
-        private IFileManager _fileManager;
         private ISaveRepository _saveRepository;
 
-        public RoomController(SignInManager<User> signInManager,
-            UserManager<User> userManager,
+        public RoomController(UserManager<User> userManager,
             ApplicationDbContext dbContext,
-            IFileManager fileManager,
             ISaveRepository saveRepository)
         {
-            _signInManager = signInManager;
             _userManager = userManager;
             _dbContext = dbContext;
-            _fileManager = fileManager;
             _saveRepository = saveRepository;
         }
 
 
 
-        [HttpGet]
+      
         public async Task<IActionResult> Room(int idRoom)
         {
             var Room = await _dbContext.Rooms.Include(o => o.Event).FirstOrDefaultAsync(o => o.Id == idRoom);
-
             var User = await _userManager.GetUserAsync(this.User);
-            if (Room.Event.OwnerId == _userManager.GetUserId(HttpContext.User))
-                return View("RoomAdmin", new RoomViewModel { UserName = User.Name, UserSurname = User.Surname, IdEvent = Room.Event.Id, IdRoom = Room.Id });
-            return View(new RoomViewModel { UserName = User.Name, UserSurname = User.Surname, IdEvent = Room.Event.Id, IdRoom = Room.Id });
+            return View(new RoomViewModel { UserName = User.Name, UserSurname = User.Surname, IdEvent = Room.Event.Id, IdRoom = Room.Id });         
         }
 
         [HttpGet]

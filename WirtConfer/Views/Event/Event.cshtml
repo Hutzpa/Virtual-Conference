@@ -179,14 +179,16 @@
     </tbody>
 </table>
 
-@if (Model.OwnerId == _userManager.GetUserId(User))
+@*BAAAAAAN*@
+
+@if (Model.OwnerId == _userManager.GetUserId(User)) //пользователь который забанен в этом ивенте
 {
 
-    @if (Enumerable.Count(_dbContext.Blacklist.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.Id).ToList()) > 0)
+    @if (Enumerable.Count(_dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.Id && o.IsBanned).ToList()) > 0)
     {
         <h4 class="lead">Ban list</h4>
         <ul class="list-group">
-            @foreach (var user in _dbContext.Blacklist.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.Id))
+            @foreach (var user in _dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.Id && o.IsBanned))
             {
                 <li class="list-group-item lead">
                     @user.User.Name @user.User.Surname  @user.User.UserName

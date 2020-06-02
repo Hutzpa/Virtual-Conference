@@ -21,13 +21,10 @@ namespace WirtConfer.Data
         public DbSet<Room> Rooms { get; set; } 
         public new DbSet<User> Users { get; set; } 
         public DbSet<UserInEvent> UserInEvents { get; set; }
-        public DbSet<Blacklist> Blacklist { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            builder.Entity<Blacklist>().HasKey(k => new { k.IdEvent, k.IdUser });
 
             builder.Entity<Event_>()
                 .HasMany(o => o.Rooms)
@@ -49,10 +46,7 @@ namespace WirtConfer.Data
                 .WithOne(o => o.User)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<Event_>()
-                .HasMany(o => o.Blacklist)
-                .WithOne(o => o.Event)
-                .OnDelete(DeleteBehavior.Cascade);
+           
         }
     }
 }
