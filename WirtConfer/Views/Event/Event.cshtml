@@ -33,7 +33,7 @@
             @if (!String.IsNullOrEmpty(Model.Image))
             {
                 var imgPath = $"/Image/{Model.Image}";
-                <img src="@imgPath" class="rounded float-right" height="330" width="650"/>
+                <img src="@imgPath" class="rounded float-right" height="330" width="650" />
 
             }
         </div>
@@ -112,6 +112,14 @@
                     </td>
 
                     <td>
+                        @if (invite.Type == WirtConfer.Models.States.InviteType.Single)
+                        {
+                            <a class="btn btn-secondary ml-2" asp-controller="Invite" asp-action="ChangeInvite" asp-route-idInv="@invite.Id"> Change to group </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-secondary ml-2" asp-controller="Invite" asp-action="ChangeInvite" asp-route-idInv="@invite.Id"> Change to single </a>
+                        }
                         <a class="btn btn-danger ml-2" asp-controller="Invite" asp-action="DeleteInvite" asp-route-idInv="@invite.Id"> Delete </a>
                     </td>
                 </tr>

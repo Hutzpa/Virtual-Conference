@@ -52,6 +52,14 @@ namespace WirtConfer.Controllers
         }
 
 
+        public async Task<IActionResult> ChangeInviteAsync(int idInv)
+        {
+            var inv = await _dbContext.Invites.FirstOrDefaultAsync(o => o.Id == idInv);
+            inv.Type = inv.Type == InviteType.Single ? InviteType.Group : InviteType.Single;
+            return await RedirectToEvent(inv.EventId);
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> JoinInviteAsync(string Url)
         {

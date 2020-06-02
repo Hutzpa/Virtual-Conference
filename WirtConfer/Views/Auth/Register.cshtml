@@ -56,6 +56,16 @@
                 </td>
 
             </tr>
+            <tr id="ConfirmPassword">
+                <td>
+                    <label class="lead">Confirm Password</label>
+                </td>
+                <td>
+                    <input asp-for="ConfirmPassword" /> <br />
+                    <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+                </td>
+
+            </tr>
             <tr id="Register">
                 <td>
                     <input class="btn btn-success" type="submit" value="Register" />
