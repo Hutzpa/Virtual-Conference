@@ -24,10 +24,9 @@ namespace WirtConfer.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
-        {
-            return View(new LoginViewModel());
-        }
+        public IActionResult Login() => PartialView(new LoginViewModel());
+        
+       
 
 
         [HttpPost]
@@ -36,7 +35,7 @@ namespace WirtConfer.Controllers
             var res = await _signInManager.PasswordSignInAsync(lvm.Email, lvm.Password,false,false);
             if(res.Succeeded)
                 return RedirectToAction("Index", "Home");
-            return View(lvm);
+            return PartialView(lvm);
         } 
 
 

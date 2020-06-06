@@ -13,22 +13,22 @@
         <input type="hidden" id="idRoom" name="idRoom" value="@Model.IdRoom" />
         <div class="col-6">
             <!-- Форма для получения сообщений и имени -->
-            <h3>Форма сообщений</h3>
+            <h3>@Localizer["MessageForm"]</h3>
             <form id="messForm">
-                <label for="name">Имя</label>
+                <label for="name">@Localizer["Name"]</label>
                 <input type="text" name="name" id="name" value="@Model.UserName  @Model.UserSurname" disabled>
 
                 <br>
-                <label for="message">Сообщение</label>
-                <textarea name="message" id="message" class="form-control" placeholder="Введите сообщение"></textarea>
+                <label for="message">@Localizer["Message"]</label>
+                <textarea name="message" id="message" class="form-control" placeholder="@Localizer["Enter"]"></textarea>
                 <br>
 
-                <input type="submit" value="Отправить" class="btn btn-danger">
+                <input type="submit" value="@Localizer["Send"]" class="btn btn-danger">
                 <button id="sent" value="Шли уже"></button>
             </form>
         </div>
         <div class="col-6">
-            <h3>Сообщения</h3>
+            <h3>@Localizer["Messages"]</h3>
             <!-- Вывод всех сообщений будет здесь -->
             <div id="all_mess"></div>
         </div>

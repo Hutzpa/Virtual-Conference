@@ -6,10 +6,10 @@
     <form asp-controller="Room" asp-action="CreateRoom" method="post">
         <input asp-for="IdEvent" value="@Model.IdEvent" type="hidden" />
         <div id="Name" class="mb-4">
-            <label class="lead">Room name</label>
+            <label class="lead">@Localizer["RoomName"]</label>
             <input class="form-control" asp-for="RoomName" width="200"/>
             <span asp-validation-for="RoomName"></span>
         </div>
-        <button type="submit" class="btn btn-success">Save</button>
+        <button type="submit" class="btn btn-success">@Localizer["Save"]</button>
     </form>
 </div>

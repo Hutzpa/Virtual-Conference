@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using WirtConfer.Models;
 using WirtConfer.Data.FileManager;
 using WirtConfer.Data.Repositories;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace WirtConfer
 {
@@ -30,6 +32,24 @@ namespace WirtConfer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddControllersWithViews()
+               .AddDataAnnotationsLocalization()
+               .AddViewLocalization();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[]
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("uk")
+                };
+
+                options.DefaultRequestCulture = new RequestCulture("uk");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -65,6 +85,8 @@ namespace WirtConfer
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseRequestLocalization();
 
             app.UseRouting();
 

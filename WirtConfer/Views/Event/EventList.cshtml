@@ -11,7 +11,7 @@
 </div>
 <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#CreateEv"
         data-url="@Url.Action("CreateEv")">
-    Create event
+    @Localizer["CreateEv"]
 </button>
 
 <p class="mb-5">
@@ -19,14 +19,14 @@
 </p>
 @if (Enumerable.Count(Model) == 0)
 {
-    <h3 class="lead">You haven't create any event yet</h3>
+<h3 class="lead">@Localizer["NoEv"]</h3>
 }
 else
 {
     <table class="table table-striped" align="center">
         <thead class="thead-dark">
             <tr>
-                <th class="lead">Event name</th>
+                <th class="lead">@Localizer["EvName"]</th>
                 <th></th>
             </tr>
         </thead>
@@ -41,7 +41,7 @@ else
                     @if (e.OwnerId == _userManager.GetUserId(User))
                     {
                         <td>
-                            <a class="btn btn-danger" asp-controller="Event" asp-action="DeleteEv" asp-route-id="@e.Id"> Delete </a>
+                            <a class="btn btn-danger" asp-controller="Event" asp-action="DeleteEv" asp-route-id="@e.Id"> @Localizer["Delete"] </a>
                         </td>
                     }
                 </tr>

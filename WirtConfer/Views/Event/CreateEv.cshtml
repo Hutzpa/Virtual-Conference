@@ -6,7 +6,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="createEventLabel">Create event</h4>
+                <h4 class="modal-title" id="createEventLabel"> @Localizer["CreateEv"]</h4>
                 <button type="button" class="close" data-dismiss="modal">
                     <span>X</span>
                 </button>
@@ -16,14 +16,14 @@
             <div class="modal-body">
                 <form asp-controller="Event" asp-action="CreateEv" method="post" enctype="multipart/form-data">
                     <div class="form-group" id="Name">
-                        <label>Name</label>
+                        <label>@Localizer["Name"]</label>
                         <input asp-for="Name" class="form-control mb-3" />
                         <span asp-validation-for="Name" class="text-danger"></span>
    
-                        <label>Image  </label>
+                        <label>@Localizer["Image"]  </label>
                         <input asp-for="Image" class="mt-2" />
                     </div>
-                    <input type="submit" class="btn btn-primary"/>
+                    <input type="submit" class="btn btn-primary" value="@Localizer["Send"]"/>
                 </form>
             </div>
         </div>

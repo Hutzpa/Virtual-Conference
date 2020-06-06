@@ -45,19 +45,19 @@
 
 @if (Model.OwnerId == _userManager.GetUserId(User))
 {
-    <a class="btn btn-info" asp-controller="Room" asp-action="CreateRoom" id="Create" asp-route-idEv="@Model.Id">Create room</a>
+<a class="btn btn-info" asp-controller="Room" asp-action="CreateRoom" id="Create" asp-route-idEv="@Model.Id">@Localizer["CreateRoom"]</a>
 }
 
 
 
 
-<h5 class="lead">Rooms in this event</h5>
+<h5 class="lead">@Localizer["RoomHere"]</h5>
 
 <table class="table table-striped ">
     <thead class="thead-light">
         <tr>
             <th class="lead pl-5">
-                Room name
+                @Localizer["RoomName"]
             </th>
             <th>
 
@@ -74,7 +74,7 @@
                 <td>
                     @if (Model.OwnerId == _userManager.GetUserId(User))
                     {
-                        <a class="btn btn-danger" asp-controller="Room" asp-action="DeleteRoom" asp-route-id="@room.Id"> Delete room</a>
+                    <a class="btn btn-danger" asp-controller="Room" asp-action="DeleteRoom" asp-route-id="@room.Id"> @Localizer["DeleteRoom"]</a>
                     }
 
                 </td>
@@ -86,18 +86,18 @@
 
 @if (Model.OwnerId == _userManager.GetUserId(User))
 {
-    <a class="btn btn-info mr-5 mb-2 mt-5" asp-controller="Invite" asp-action="CreateInvite" asp-route-idEv="@Model.Id" asp-route-invType="0">Create invite for single user </a>
+<a class="btn btn-info mr-5 mb-2 mt-5" asp-controller="Invite" asp-action="CreateInvite" asp-route-idEv="@Model.Id" asp-route-invType="0">@Localizer["CreateSingle"] </a>
 
-    <a class="btn btn-info ml-5 mb-2 mt-5" asp-controller="Invite" asp-action="CreateInvite" asp-route-idEv="@Model.Id" asp-route-invType="1">Create invite for many users</a>
+    <a class="btn btn-info ml-5 mb-2 mt-5" asp-controller="Invite" asp-action="CreateInvite" asp-route-idEv="@Model.Id" asp-route-invType="1">@Localizer["CreateMany"]</a>
     <br />
 
-    <h4 class="lead">Active invites in this event</h4>
+    <h4 class="lead">@Localizer["ActiveInvites"]</h4>
     <table class="table table-striped">
         <thead class="thead-light">
             <tr>
-                <th class="lead">Url</th>
-                <th class="lead">Type</th>
-                <th class="lead">Action</th>
+                <th class="lead">@Localizer["Url"]</th>
+                <th class="lead">@Localizer["Type"]</th>
+                <th class="lead">@Localizer["Action"]</th>
             </tr>
         </thead>
         <tbody>
@@ -114,13 +114,13 @@
                     <td>
                         @if (invite.Type == WirtConfer.Models.States.InviteType.Single)
                         {
-                            <a class="btn btn-secondary ml-2" asp-controller="Invite" asp-action="ChangeInvite" asp-route-idInv="@invite.Id"> Change to group </a>
+                        <a class="btn btn-secondary ml-2" asp-controller="Invite" asp-action="ChangeInvite" asp-route-idInv="@invite.Id"> @Localizer["ChangeGroup"] </a>
                         }
                         else
                         {
-                            <a class="btn btn-secondary ml-2" asp-controller="Invite" asp-action="ChangeInvite" asp-route-idInv="@invite.Id"> Change to single </a>
+                    <a class="btn btn-secondary ml-2" asp-controller="Invite" asp-action="ChangeInvite" asp-route-idInv="@invite.Id"> @Localizer["ChangeSingle"] </a>
                         }
-                        <a class="btn btn-danger ml-2" asp-controller="Invite" asp-action="DeleteInvite" asp-route-idInv="@invite.Id"> Delete </a>
+                    <a class="btn btn-danger ml-2" asp-controller="Invite" asp-action="DeleteInvite" asp-route-idInv="@invite.Id"> @Localizer["DeleteInvite"] </a>
                     </td>
                 </tr>
             }
@@ -132,7 +132,7 @@
 
 }
 <h4 class="lead mb-3">
-    User list
+    @Localizer["UserList"]
 </h4>
 
 
@@ -140,11 +140,11 @@
     <thead class="thead-light">
         <tr>
             <th class="lead">
-                User
+                @Localizer["User"]
             </th>
 
             <th class="lead">
-                Action
+                @Localizer["Action"]
             </th>
         </tr>
     </thead>
@@ -162,7 +162,7 @@
                     @if (IsModer && user.Role != WirtConfer.Models.States.Roles.moderator) //Если текущий пользователь модерирует данный ивент
                     {
                         <label>
-                            <a class="btn btn-danger" asp-controller="Moder" asp-action="Ban" asp-route-id="@user.User.Id" asp-route-evId="@Model.Id">Ban</a>
+                            <a class="btn btn-danger" asp-controller="Moder" asp-action="Ban" asp-route-id="@user.User.Id" asp-route-evId="@Model.Id">@Localizer["Ban"]</a>
                         </label>
                     }
                     @if (Model.OwnerId == _userManager.GetUserId(User))
@@ -170,13 +170,13 @@
                         if (user.Role != WirtConfer.Models.States.Roles.moderator)
                         {
                             <label>
-                                <a class="btn btn-info" asp-controller="Moder" asp-action="MakeModer" asp-route-id="@user.User.Id" asp-route-evId="@Model.Id">Make moder</a>
+                                <a class="btn btn-info" asp-controller="Moder" asp-action="MakeModer" asp-route-id="@user.User.Id" asp-route-evId="@Model.Id">@Localizer["MakeMod"]</a>
                             </label>
                         }
                         else
                         {
                             <label>
-                                <a class="btn btn-danger" asp-controller="Moder" asp-action="DeleteModer" asp-route-id="@user.User.Id" asp-route-evId="@Model.Id">Unmake moder</a>
+                                <a class="btn btn-danger" asp-controller="Moder" asp-action="DeleteModer" asp-route-id="@user.User.Id" asp-route-evId="@Model.Id">@Localizer["UnmakeMod"]</a>
                             </label>
                         }
                     }
@@ -187,14 +187,13 @@
     </tbody>
 </table>
 
-@*BAAAAAAN*@
 
 @if (Model.OwnerId == _userManager.GetUserId(User)) //пользователь который забанен в этом ивенте
 {
 
     @if (Enumerable.Count(_dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.Id && o.IsBanned).ToList()) > 0)
     {
-        <h4 class="lead">Ban list</h4>
+<h4 class="lead">@Localizer["BanList"]</h4>
         <ul class="list-group">
             @foreach (var user in _dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.Id && o.IsBanned))
             {
@@ -208,4 +207,4 @@
 
 }
 
-<a class="btn btn-danger" asp-controller="Moder" asp-action="Leave" asp-route-idEv="@Model.Id">LEAVE</a>
+<a class="btn btn-danger" asp-controller="Moder" asp-action="Leave" asp-route-idEv="@Model.Id">@Localizer["Leave"]</a>
