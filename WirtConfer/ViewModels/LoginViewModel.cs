@@ -9,11 +9,11 @@ namespace WirtConfer.ViewModels
 {
     public class LoginViewModel
     {
-        [DataType(DataType.EmailAddress,ErrorMessage = "Correct your email")]
-        [Required(AllowEmptyStrings = false,ErrorMessage = "Email can't be empty")]
+        [DataType(DataType.EmailAddress,ErrorMessage = "Email")]
+        [Required(AllowEmptyStrings = false,ErrorMessage = "EmailRequired")]
         public string Email { get; set; }
         [DataType(DataType.Password)]
-        [Required(ErrorMessage = "Password is required")]
+        [Required(ErrorMessage = "PasswordRequired")]
         public string Password { get; set; }
     }
 }

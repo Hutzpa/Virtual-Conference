@@ -86,7 +86,17 @@ namespace WirtConfer
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseRequestLocalization();
+            var supportedCultures = new[]
+             {
+                new CultureInfo("en"),
+                    new CultureInfo("uk")
+            };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("uk"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
 
             app.UseRouting();
 

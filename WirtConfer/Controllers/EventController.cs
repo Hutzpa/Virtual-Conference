@@ -42,24 +42,62 @@ namespace WirtConfer.Controllers
 
 
         [HttpGet]
-        public IActionResult CreateEv() => PartialView(new EventViewModel());
+        public async Task<IActionResult> CreateEvAsync(int id = 0)
+        {
+
+            if (id == 0)
+                return View(new EventViewModel());
+
+            var eventToChange = await _dbContext.Events.FindAsync(id);
+            if (eventToChange == null)
+                return NotFound();
+
+            EventViewModel ev = new EventViewModel
+            {
+                IdEvent = eventToChange.Id,
+                OwnerId = eventToChange.OwnerId,
+                Name = eventToChange.Name,
+            };
+            return View(ev);
+        }
 
         [HttpPost]
-        public async Task<IActionResult> CreateEv(EventViewModel ev)
+        public async Task<IActionResult> CreateEv(EventViewModel ev, int idEv)
         {
-            var curUsr = await _userManager.GetUserAsync(this.User);
-            var Event = new Event_
-            {
-                Name = ev.Name,
-                OwnerId = curUsr.Id,
-                Image = await _fileManager.SaveImage(ev.Image),
-            };
-            await _dbContext.Events.AddAsync(Event);
+            if (!ModelState.IsValid)
+                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateEv", ev) });
+            //if (!ModelState.IsValid)
+            //    return View(ev);
 
-            if (await _saveRepository.SaveAsync())
+            if (idEv == 0)
             {
-                int id = Event.Id;
-                return RedirectToAction("Event", "Event", new { id = id});
+                var curUsr = await _userManager.GetUserAsync(this.User);
+                var Event = new Event_
+                {
+                    Name = ev.Name,
+                    OwnerId = curUsr.Id,
+                    Image = await _fileManager.SaveImage(ev.Image),
+                };
+                await _dbContext.Events.AddAsync(Event);
+
+                if (await _saveRepository.SaveAsync())
+                {
+                    int id = Event.Id;
+                    return RedirectToAction("Event", "Event", new { id = id });
+                }
+                return View(ev);
+            }
+            else
+            {
+                var toUpdate = _dbContext.Events.FirstOrDefault(o => o.Id == idEv);
+                toUpdate.Image = await _fileManager.SaveImage(ev.Image);
+                toUpdate.Name = ev.Name;
+                _dbContext.Events.Update(toUpdate);
+                if (await _saveRepository.SaveAsync())
+                {
+                    int id = toUpdate.Id;
+                    return RedirectToAction("Event", "Event", new { id = id });
+                }
             }
             return View(ev);
         }
@@ -67,9 +105,9 @@ namespace WirtConfer.Controllers
         [HttpGet("/Image/{image}")]
         public IActionResult Image(string image)
         {
-            var mime = image.Substring(image.LastIndexOf('.')+1);
+            var mime = image.Substring(image.LastIndexOf('.') + 1);
 
-            return new FileStreamResult(_fileManager.ImageStream(image),$"image/{mime}");
+            return new FileStreamResult(_fileManager.ImageStream(image), $"image/{mime}");
         }
 
         [HttpGet]
@@ -111,6 +149,6 @@ namespace WirtConfer.Controllers
 
             return View(ev);
         }
-     
+
     }
 }

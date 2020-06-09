@@ -11,8 +11,8 @@ namespace WirtConfer.ViewModels
     public class EventViewModel
     {
         public int IdEvent { get; set; }
-        [Required]
-        [MinLength(2, ErrorMessage = "Name can't be less than two chars")]
+        [Required(ErrorMessage = "NameRequired")]
+        [MinLength(2, ErrorMessage = "NameLength")]
         public string Name { get; set; }
         public string OwnerId { get; set; }
         public IFormFile Image { get; set; }

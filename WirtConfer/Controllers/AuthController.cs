@@ -32,6 +32,9 @@ namespace WirtConfer.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel lvm)
         {
+            if (!ModelState.IsValid)
+                return PartialView(lvm);
+
             var res = await _signInManager.PasswordSignInAsync(lvm.Email, lvm.Password,false,false);
             if(res.Succeeded)
                 return RedirectToAction("Index", "Home");

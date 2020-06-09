@@ -9,25 +9,25 @@ namespace WirtConfer.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
-        [MinLength(2, ErrorMessage = "Name can't be less than two chars")]
+        [Required(ErrorMessage = "Required")]
+        [MinLength(2, ErrorMessage = "NameLength")]
         public string Name { get; set; }
-        [Required]
-        [MinLength(2, ErrorMessage = "Surname can't be less than two chars")]
+        [Required(ErrorMessage = "Required")]
+        [MinLength(2, ErrorMessage = "SurnameLength")]
         public string Surname { get; set; }
-        [Range(16, 100, ErrorMessage = "The age must be between 16 and 100")]
-        [Required]
+        [Range(16, 100, ErrorMessage = "AgeRange")]
+        [Required(ErrorMessage = "Required")]
         public int Age { get; set; }
         [DataType(DataType.EmailAddress)]
-        [Required]
+        [Required(ErrorMessage = "Required")]
         public string Email { get; set; }
 
-        [DataType(DataType.Password)]
-        [Required]
+        [DataType(DataType.Password,ErrorMessage = "PasswordEr")]
+        [Required(ErrorMessage = "Required")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Compare("Password")] 
+        [Compare("Password",ErrorMessage = "NotMatch")] 
         public string ConfirmPassword { get; set; }
 
     }
