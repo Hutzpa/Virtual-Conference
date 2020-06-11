@@ -66,8 +66,7 @@ namespace WirtConfer.Controllers
         {
             if (!ModelState.IsValid)
                 return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateEv", ev) });
-            //if (!ModelState.IsValid)
-            //    return View(ev);
+   
 
             if (idEv == 0)
             {

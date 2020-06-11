@@ -33,28 +33,59 @@ namespace WirtConfer.Controllers
 
 
 
-      
+
         public async Task<IActionResult> Room(int idRoom)
         {
             var Room = await _dbContext.Rooms.Include(o => o.Event).FirstOrDefaultAsync(o => o.Id == idRoom);
             var User = await _userManager.GetUserAsync(this.User);
-            return View(new RoomViewModel { UserName = User.Name, UserSurname = User.Surname, IdEvent = Room.Event.Id, IdRoom = Room.Id });         
+            return View(new RoomViewModel { UserName = User.Name, UserSurname = User.Surname, IdEvent = Room.Event.Id, IdRoom = Room.Id });
         }
 
         [HttpGet]
-        public IActionResult CreateRoom(int idev) => View(new RoomViewModel { IdEvent = idev });
+        public async Task<IActionResult> CreateRoomAsync(int idev, int id = 0)
+        {
+            if (id == 0)
+                return View(new RoomViewModel { IdEvent = idev });
+            var roomToChange = await _dbContext.Rooms.FirstOrDefaultAsync(o => o.Id == id);
+            RoomViewModel room = new RoomViewModel
+            {
+                IdEvent = roomToChange.EventId,
+                RoomName = roomToChange.Name,
+                IdRoom = roomToChange.Id,
+
+            };
+            return View(room);
+        }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRoom(RoomViewModel rvm)
+        public async Task<IActionResult> CreateRoom(RoomViewModel rvm, int idRm)
         {
-            var Ev = await _dbContext.Events.FirstOrDefaultAsync(o => o.Id == rvm.IdEvent);
-            var room = new Room
+            if (!ModelState.IsValid)
+                return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateRoom", rvm) });
+
+            if (idRm == 0)
             {
-                Event = Ev,
-                Name = rvm.RoomName
-            };
-            await _dbContext.Rooms.AddAsync(room);
-            return await _saveRepository.RedirectToEvent(rvm.IdEvent);
+                var Ev = await _dbContext.Events.FirstOrDefaultAsync(o => o.Id == rvm.IdEvent);
+                var room = new Room
+                {
+                    Event = Ev,
+                    Name = rvm.RoomName
+                };
+                await _dbContext.Rooms.AddAsync(room);
+                return await _saveRepository.RedirectToEvent(rvm.IdEvent);   
+
+            }
+            else
+            {
+                var Ev = await _dbContext.Events.FirstOrDefaultAsync(o => o.Id == rvm.IdEvent);
+                var roomToUpdate = await _dbContext.Rooms.FirstOrDefaultAsync(o => o.Id == idRm);
+                roomToUpdate.Name = rvm.RoomName;
+
+
+                _dbContext.Rooms.Update(roomToUpdate);
+                return await _saveRepository.RedirectToEvent(rvm.IdEvent);
+
+            }
         }
 
         public async Task<IActionResult> DeleteRoomAsync(int id)

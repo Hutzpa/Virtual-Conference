@@ -41,11 +41,57 @@ CreateEventSubmit = form => {
     } catch (e) {
         console.log(e);
     }
-
-
     //to prevent submission
     return false;
 }
+
+
+
+
+
+showCreateRoom = (url) => {
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function (res) {
+            $('#CreateRoomModal .modal-body').html(res);
+            $('#CreateRoomModal').modal('show');
+        }
+    })
+}
+
+
+CreateRoomSubmit = form => {
+    try {
+        $.ajax({
+            type: "POST",
+            url: form.action,
+            data: new FormData(form),
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (res.isValid) {
+                    $('#CreateRoomModal').modal('hide');
+                }
+                else {
+                    $('#CreateRoomModal .modal-body').html(res.html);
+                }
+
+            },
+            error: function (res) {
+                console.log(res);
+            }
+        })
+    } catch (e) {
+        console.log(e);
+    }
+    //to prevent submission
+    return false;
+}
+
+
+
+
 
 $(function () {
 

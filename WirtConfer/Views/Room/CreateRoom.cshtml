@@ -1,15 +1,18 @@
 ﻿@model RoomViewModel
+@{
+    Layout = null;
+}
 
 
 
-<div class="text-center">
-    <form asp-controller="Room" asp-action="CreateRoom" method="post">
+    <form asp-controller="Room" asp-action="CreateRoom" asp-route-idRm="@Model.IdRoom" onsubmit="return CreateRoomSubmit(this)" method="post">
         <input asp-for="IdEvent" value="@Model.IdEvent" type="hidden" />
         <div id="Name" class="mb-4">
             <label class="lead">@Localizer["RoomName"]</label>
-            <input class="form-control" asp-for="RoomName" width="200"/>
+            <input class="form-control" asp-for="RoomName" width="200" />
             <span asp-validation-for="RoomName"></span>
         </div>
         <button type="submit" class="btn btn-success">@Localizer["Save"]</button>
     </form>
-</div>
+
+

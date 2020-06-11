@@ -45,7 +45,8 @@
 
 @if (Model.OwnerId == _userManager.GetUserId(User))
 {
-<a class="btn btn-info" asp-controller="Room" asp-action="CreateRoom" id="Create" asp-route-idEv="@Model.Id">@Localizer["CreateRoom"]</a>
+    <a onclick="showCreateRoom('@Url.Action("CreateRoom","Room",new { idev = Model.Id },Context.Request.Scheme)')">@Localizer["CreateRoom"]</a>
+
 }
 
 
@@ -74,7 +75,9 @@
                 <td>
                     @if (Model.OwnerId == _userManager.GetUserId(User))
                     {
-                    <a class="btn btn-danger" asp-controller="Room" asp-action="DeleteRoom" asp-route-id="@room.Id"> @Localizer["DeleteRoom"]</a>
+                        <a onclick="showCreateRoom('@Url.Action("CreateRoom","Room",new {id = room.Id },Context.Request.Scheme)')">Update</a>
+
+                        <a class="btn btn-danger" asp-controller="Room" asp-action="DeleteRoom" asp-route-id="@room.Id"> @Localizer["DeleteRoom"]</a>
                     }
 
                 </td>
@@ -86,7 +89,7 @@
 
 @if (Model.OwnerId == _userManager.GetUserId(User))
 {
-<a class="btn btn-info mr-5 mb-2 mt-5" asp-controller="Invite" asp-action="CreateInvite" asp-route-idEv="@Model.Id" asp-route-invType="0">@Localizer["CreateSingle"] </a>
+    <a class="btn btn-info mr-5 mb-2 mt-5" asp-controller="Invite" asp-action="CreateInvite" asp-route-idEv="@Model.Id" asp-route-invType="0">@Localizer["CreateSingle"] </a>
 
     <a class="btn btn-info ml-5 mb-2 mt-5" asp-controller="Invite" asp-action="CreateInvite" asp-route-idEv="@Model.Id" asp-route-invType="1">@Localizer["CreateMany"]</a>
     <br />
@@ -114,13 +117,13 @@
                     <td>
                         @if (invite.Type == WirtConfer.Models.States.InviteType.Single)
                         {
-                        <a class="btn btn-secondary ml-2" asp-controller="Invite" asp-action="ChangeInvite" asp-route-idInv="@invite.Id"> @Localizer["ChangeGroup"] </a>
+                            <a class="btn btn-secondary ml-2" asp-controller="Invite" asp-action="ChangeInvite" asp-route-idInv="@invite.Id"> @Localizer["ChangeGroup"] </a>
                         }
                         else
                         {
-                    <a class="btn btn-secondary ml-2" asp-controller="Invite" asp-action="ChangeInvite" asp-route-idInv="@invite.Id"> @Localizer["ChangeSingle"] </a>
+                            <a class="btn btn-secondary ml-2" asp-controller="Invite" asp-action="ChangeInvite" asp-route-idInv="@invite.Id"> @Localizer["ChangeSingle"] </a>
                         }
-                    <a class="btn btn-danger ml-2" asp-controller="Invite" asp-action="DeleteInvite" asp-route-idInv="@invite.Id"> @Localizer["DeleteInvite"] </a>
+                        <a class="btn btn-danger ml-2" asp-controller="Invite" asp-action="DeleteInvite" asp-route-idInv="@invite.Id"> @Localizer["DeleteInvite"] </a>
                     </td>
                 </tr>
             }
@@ -193,7 +196,7 @@
 
     @if (Enumerable.Count(_dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.Id && o.IsBanned).ToList()) > 0)
     {
-<h4 class="lead">@Localizer["BanList"]</h4>
+        <h4 class="lead">@Localizer["BanList"]</h4>
         <ul class="list-group">
             @foreach (var user in _dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.Id && o.IsBanned))
             {
@@ -208,3 +211,23 @@
 }
 
 <a class="btn btn-danger" asp-controller="Moder" asp-action="Leave" asp-route-idEv="@Model.Id">@Localizer["Leave"]</a>
+
+
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="CreateRoomModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>

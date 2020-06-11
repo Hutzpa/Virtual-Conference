@@ -6,10 +6,6 @@
 
 
 
-@*<button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#CreateEv"
-            data-url="@Url.Action("CreateEv")">
-        @Localizer["CreateEv"]
-    </button>*@
 
 <a onclick="showCreateEvent('@Url.Action("CreateEv","Event",null,Context.Request.Scheme)')">@Localizer["CreateEv"]</a>
 
