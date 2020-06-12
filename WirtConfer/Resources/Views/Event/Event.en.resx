@@ -168,6 +168,9 @@
   <data name="UnmakeMod" xml:space="preserve">
     <value>Unmake moder</value>
   </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
   <data name="Url" xml:space="preserve">
     <value>Url</value>
   </data>

@@ -15,6 +15,7 @@ namespace WirtConfer.ViewModels
         [MinLength(2, ErrorMessage = "NameLength")]
         public string Name { get; set; }
         public string OwnerId { get; set; }
+        [Required(ErrorMessage = "ImageRequired")]
         public IFormFile Image { get; set; }
 
     }

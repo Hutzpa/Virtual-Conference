@@ -45,7 +45,7 @@
 
 @if (Model.OwnerId == _userManager.GetUserId(User))
 {
-    <a onclick="showCreateRoom('@Url.Action("CreateRoom","Room",new { idev = Model.Id },Context.Request.Scheme)')">@Localizer["CreateRoom"]</a>
+    <a onclick="showCreateRoom('@Url.Action("CreateRoom","Room",new { idev = Model.Id },Context.Request.Scheme)')" class="btn btn-success">@Localizer["CreateRoom"]</a>
 
 }
 
@@ -75,7 +75,7 @@
                 <td>
                     @if (Model.OwnerId == _userManager.GetUserId(User))
                     {
-                        <a onclick="showCreateRoom('@Url.Action("CreateRoom","Room",new {id = room.Id },Context.Request.Scheme)')">Update</a>
+                        <a onclick="showCreateRoom('@Url.Action("CreateRoom","Room",new {id = room.Id },Context.Request.Scheme)')">@Localizer["Update"]</a>
 
                         <a class="btn btn-danger" asp-controller="Room" asp-action="DeleteRoom" asp-route-id="@room.Id"> @Localizer["DeleteRoom"]</a>
                     }

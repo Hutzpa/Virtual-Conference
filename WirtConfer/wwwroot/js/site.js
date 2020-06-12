@@ -26,13 +26,18 @@ CreateEventSubmit = form => {
             contentType: false,
             processData: false,
             success: function (res) {
+
                 if (res.isValid) {
                     $('#CreateEventModal').modal('hide');
                 }
                 else {
                     $('#CreateEventModal .modal-body').html(res.html);
                 }
+                if (res.isValid === undefined) {
+                    location.reload();
+                    $('#CreateEventModal').modal('hide');
 
+                }
             },
             error: function (res) {
                 console.log(res);
@@ -76,7 +81,11 @@ CreateRoomSubmit = form => {
                 else {
                     $('#CreateRoomModal .modal-body').html(res.html);
                 }
+                if (res.isValid === undefined) {
+                    location.reload();
+                    $('#CreateEventModal').modal('hide');
 
+                }
             },
             error: function (res) {
                 console.log(res);

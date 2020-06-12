@@ -129,4 +129,7 @@
   <data name="NoEv" xml:space="preserve">
     <value>You haven't create any event yet</value>
   </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
 </root>

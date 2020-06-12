@@ -12,6 +12,8 @@
 
             <label>@Localizer["Image"]  </label>
             <input asp-for="Image" class="mt-2" />
+            <span asp-validation-for="Image" class="text-danger"></span>
+
         </div>
         <input type="submit" class="btn btn-primary" value="@Localizer["Send"]" />
     </form>

@@ -7,7 +7,7 @@
 
 
 
-<a onclick="showCreateEvent('@Url.Action("CreateEv","Event",null,Context.Request.Scheme)')">@Localizer["CreateEv"]</a>
+<a onclick="showCreateEvent('@Url.Action("CreateEv","Event",null,Context.Request.Scheme)')"  class="btn btn-success" >@Localizer["CreateEv"]</a>
 
 <p class="mb-5">
 
@@ -36,7 +36,7 @@ else
                     @if (e.OwnerId == _userManager.GetUserId(User))
                     {
                         <td>
-                            <a onclick="showCreateEvent('@Url.Action("CreateEv","Event",new {id = e.Id },Context.Request.Scheme)')">Update</a>
+                            <a onclick="showCreateEvent('@Url.Action("CreateEv","Event",new {id = e.Id },Context.Request.Scheme)')" class="btn btn-success ml-2">@Localizer["Update"]</a>
                             <a class="btn btn-danger" asp-controller="Event" asp-action="DeleteEv" asp-route-id="@e.Id"> @Localizer["Delete"] </a>
 
                         </td>

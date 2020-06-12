@@ -168,6 +168,9 @@
   <data name="UnmakeMod" xml:space="preserve">
     <value>Позбавити повноважень</value>
   </data>
+  <data name="Update" xml:space="preserve">
+    <value>Редагувати</value>
+  </data>
   <data name="Url" xml:space="preserve">
     <value>Url</value>
   </data>
