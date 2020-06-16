@@ -23,11 +23,9 @@
 
 <div class="container">
     <div class="row">
-
         <h2 class="display-2 mb-3 col-4">
             @Model.Name
         </h2>
-
         <div class="col-8">
 
             @if (!String.IsNullOrEmpty(Model.Image))
@@ -37,20 +35,14 @@
 
             }
         </div>
-
     </div>
-
 </div>
 
 
 @if (Model.OwnerId == _userManager.GetUserId(User))
 {
     <a onclick="showCreateRoom('@Url.Action("CreateRoom","Room",new { idev = Model.Id },Context.Request.Scheme)')" class="btn btn-success">@Localizer["CreateRoom"]</a>
-
 }
-
-
-
 
 <h5 class="lead">@Localizer["RoomHere"]</h5>
 
@@ -75,7 +67,7 @@
                 <td>
                     @if (Model.OwnerId == _userManager.GetUserId(User))
                     {
-                        <a onclick="showCreateRoom('@Url.Action("CreateRoom","Room",new {id = room.Id },Context.Request.Scheme)')">@Localizer["Update"]</a>
+                        <a class="btn btn-info" onclick="showCreateRoom('@Url.Action("CreateRoom","Room",new {id = room.Id },Context.Request.Scheme)')">@Localizer["Update"]</a>
 
                         <a class="btn btn-danger" asp-controller="Room" asp-action="DeleteRoom" asp-route-id="@room.Id"> @Localizer["DeleteRoom"]</a>
                     }

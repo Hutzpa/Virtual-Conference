@@ -25,6 +25,7 @@ namespace WirtConfer
                     webBuilder.UseStartup<Startup>();
 
                     Process.Start(@"C:\Program Files\nodejs\node.exe", "serv.js");
+                    Process.Start(@"C:\Program Files\nodejs\node.exe", "videoserv.js");
                 });
     }
 }

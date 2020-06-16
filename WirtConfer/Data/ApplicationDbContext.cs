@@ -45,8 +45,6 @@ namespace WirtConfer.Data
                 .HasMany(o => o.UsersInEvents)
                 .WithOne(o => o.User)
                 .OnDelete(DeleteBehavior.Cascade);
-
-           
         }
     }
 }

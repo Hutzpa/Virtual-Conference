@@ -38,6 +38,8 @@ namespace WirtConfer.Controllers
         {
             var Room = await _dbContext.Rooms.Include(o => o.Event).FirstOrDefaultAsync(o => o.Id == idRoom);
             var User = await _userManager.GetUserAsync(this.User);
+            if (Room.Event.OwnerId == User.Id)
+                return View("RoomAdmin", new RoomViewModel { UserName = User.Name, UserSurname = User.Surname, IdEvent = Room.Event.Id, IdRoom = Room.Id });
             return View(new RoomViewModel { UserName = User.Name, UserSurname = User.Surname, IdEvent = Room.Event.Id, IdRoom = Room.Id });
         }
 

@@ -1,12 +1,22 @@
 ﻿@model RoomViewModel
 
-
+<h1>ROOM ADMIN</h1>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
 
+<section class="select">
+    <label for="audioSource">Audio source: </label>
+    <select id="audioSource"></select>
+</section>
+
+<section class="select">
+    <label for="videoSource">Video source: </label>
+    <select id="videoSource"></select>
+</section>
+
+<video playsinline autoplay muted></video>
 
 
-<video playsinline autoplay></video>
 
 
 <div class="container">
@@ -39,5 +49,5 @@
     </div>
 </div>
 <script charset="utf-8" src="~/js/room.js"></script>
-<script charset="utf-8" src="~/js/client.js"></script>
+<script charset="utf-8" src="~/js/roomadmin.js"></script>
 
