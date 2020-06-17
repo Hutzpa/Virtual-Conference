@@ -2,19 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using WirtConfer.Data;
 using WirtConfer.Data.FileManager;
 using WirtConfer.Data.Repositories;
 using WirtConfer.Models;
-using WirtConfer.Models.States;
 using WirtConfer.ViewModels;
 
 namespace WirtConfer.Controllers
@@ -44,7 +38,6 @@ namespace WirtConfer.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateEvAsync(int id = 0)
         {
-
             if (id == 0)
                 return View(new EventViewModel());
 
@@ -67,7 +60,6 @@ namespace WirtConfer.Controllers
             if (!ModelState.IsValid)
                 return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateEv", ev) });
    
-
             if (idEv == 0)
             {
                 var curUsr = await _userManager.GetUserAsync(this.User);
@@ -113,7 +105,7 @@ namespace WirtConfer.Controllers
         public IActionResult EventList()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            var userInEvents = _dbContext.UserInEvents.Include(o => o.Event).Include(o => o.User).Where(o => o.User.Id == userId).ToList();
+            var userInEvents = _dbContext.UserInEvents.Include(o => o.Event).Include(o => o.User).Where(o => o.User.Id == userId && o.IsBanned == false).ToList();
             var Own = _dbContext.Events.Where(o => o.OwnerId == userId).ToList();
             var Events = ExtractEvents(userInEvents).Union(Own);
             return View(Events); //Выводить ивенты в которых этот человек участвует или владеет             
@@ -124,7 +116,6 @@ namespace WirtConfer.Controllers
             foreach (var ev in userInEvent)
                 yield return ev.Event;
         }
-
 
         public async Task<IActionResult> DeleteEvAsync(int id)
         {
@@ -143,11 +134,10 @@ namespace WirtConfer.Controllers
             string curUsrId = _userManager.GetUserId(HttpContext.User);
             var thisUserInThisEvent = _dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).ToList().Exists(o => o.Event.Id == id && o.User.Id == curUsrId);
             var ev = await _dbContext.Events.FirstOrDefaultAsync(o => o.Id == id);
-            if (!thisUserInThisEvent && ev.OwnerId != curUsrId) //Если пользователь не состоит в ивенте и не владеет им
+            if (!thisUserInThisEvent && ev.OwnerId != curUsrId ) //Если пользователь не состоит в ивенте и не владеет им
                 return RedirectToAction("Index", "Home");
 
             return View(ev);
         }
-
     }
 }

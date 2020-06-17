@@ -165,6 +165,9 @@
   <data name="Type" xml:space="preserve">
     <value>Тип запрошення</value>
   </data>
+  <data name="Unban" xml:space="preserve">
+    <value>Розблокувати</value>
+  </data>
   <data name="UnmakeMod" xml:space="preserve">
     <value>Позбавити повноважень</value>
   </data>

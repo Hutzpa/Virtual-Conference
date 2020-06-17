@@ -165,6 +165,9 @@
   <data name="Type" xml:space="preserve">
     <value>Type</value>
   </data>
+  <data name="Unban" xml:space="preserve">
+    <value>Unban</value>
+  </data>
   <data name="UnmakeMod" xml:space="preserve">
     <value>Unmake moder</value>
   </data>

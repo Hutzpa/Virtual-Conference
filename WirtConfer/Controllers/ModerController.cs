@@ -68,5 +68,13 @@ namespace WirtConfer.Controllers
         
             return await _saveRepository.RedirectToEvent(uie.Event.Id);
         }
+
+
+        public async Task<IActionResult> UnBanAsync(string id, int evId)
+        {
+            UserInEvent uie = await _dbContext.UserInEvents.Include(o => o.Event).Include(o => o.User).FirstOrDefaultAsync(o => o.User.Id == id && o.Event.Id == evId);
+            uie.IsBanned = false;
+            return await _saveRepository.RedirectToEvent(uie.Event.Id);
+        }
     }
 }

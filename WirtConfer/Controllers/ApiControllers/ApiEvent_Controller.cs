@@ -26,7 +26,7 @@ namespace WirtConfer.Controllers.ApiControllers
         public async Task<IEnumerable<Event_>> GetEvents(string userEmail)
         {
             var user = await _context.Users.FirstOrDefaultAsync(o => o.Email == userEmail); 
-            var userInEvents = _context.UserInEvents.Include(o => o.Event).Include(o => o.User).Where(o => o.User.Id == user.Id).ToList();
+            var userInEvents = _context.UserInEvents.Include(o => o.Event).Include(o => o.User).Where(o => o.User.Id == user.Id && o.IsBanned == false).ToList();
             var Own = _context.Events.Where(o => o.OwnerId == user.Id).ToList();
             var Events = ExtractEvents(userInEvents).Union(Own);
             return Events;

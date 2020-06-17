@@ -123,8 +123,6 @@
         </tbody>
     </table>
     <br />
-
-
 }
 <h4 class="lead mb-3">
     @Localizer["UserList"]
@@ -144,7 +142,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var user in _dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.Id))
+        @foreach (var user in _dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.Id && o.IsBanned == false))
         {
             <tr>
                 <td>
@@ -193,7 +191,10 @@
             @foreach (var user in _dbContext.UserInEvents.Include(o => o.User).Include(o => o.Event).Where(o => o.Event.Id == Model.Id && o.IsBanned))
             {
                 <li class="list-group-item lead">
+
                     @user.User.Name @user.User.Surname  @user.User.UserName
+
+                    <a class="btn btn-danger ml-5" asp-controller="Moder" asp-action="UnBan" asp-route-id="@user.User.Id" asp-route-evId="@Model.Id">@Localizer["Unban"]</a>
                 </li>
             }
         </ul>
@@ -202,10 +203,7 @@
 
 }
 
-<a class="btn btn-danger" asp-controller="Moder" asp-action="Leave" asp-route-idEv="@Model.Id">@Localizer["Leave"]</a>
-
-
-
+<a class="btn btn-danger mt-3" asp-controller="Moder" asp-action="Leave" asp-route-idEv="@Model.Id">@Localizer["Leave"]</a>
 
 
 <div class="modal" tabindex="-1" role="dialog" id="CreateRoomModal">
