@@ -7,12 +7,12 @@
     "build1": "browserify room1.js -o wwwroot/js/bundle1.js"
   },
   "dependencies": {
-    "socket.io": "2.3.0",
+    "socket.io": "2.5.0",
     "express": "5.0.0-alpha.8",
     "jquery": "3.5.0"
   },
   "devDependencies": {
-    "socket.io": "2.3.0",
+    "socket.io": "2.5.0",
     "express": "5.0.0-alpha.8",
     "jquery": "3.5.0"
   }
